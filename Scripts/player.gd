@@ -8,8 +8,12 @@ var friction = 0.2
 func _ready():
 	pass
 
-func _enter_tree() -> void:
-	set_multiplayer_authority(name.to_int())
+# Set by the authority, synchronized on spawn.
+@export var player := 1 :
+	set(id):
+		player = id
+		# Give authority over the player input to the appropriate peer.
+		$PlayerInput.set_multiplayer_authority(id)
 
 func _process(delta):
 	if !is_multiplayer_authority(): return
