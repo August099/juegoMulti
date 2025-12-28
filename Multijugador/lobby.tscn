@@ -1,0 +1,91 @@
+[gd_scene load_steps=5 format=3 uid="uid://7q4nos6agjce"]
+
+[ext_resource type="Script" path="res://Multijugador/lobby.gd" id="1_llcn6"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_41qfd"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_o28iv"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nmksa"]
+properties/0/path = NodePath(".:players")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+
+[node name="Lobby" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_llcn6")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -27.0
+offset_top = 73.0
+offset_right = 25.0
+offset_bottom = 99.0
+grow_horizontal = 2
+text = "LOBBY"
+
+[node name="Leave" type="Button" parent="."]
+layout_mode = 2
+offset_left = 32.0
+offset_top = 37.0
+offset_right = 85.0
+offset_bottom = 68.0
+text = "Leave"
+
+[node name="Team1" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 269.0
+offset_top = 142.0
+offset_right = 309.0
+offset_bottom = 182.0
+scale = Vector2(7.1858, 8.65834)
+
+[node name="TextureRect" type="TextureRect" parent="Team1"]
+z_index = -4
+layout_mode = 2
+size_flags_vertical = 3
+texture = SubResource("PlaceholderTexture2D_41qfd")
+
+[node name="Team2" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 578.0
+offset_top = 140.0
+offset_right = 618.0
+offset_bottom = 180.0
+scale = Vector2(7.82349, 8.66099)
+
+[node name="TextureRect" type="TextureRect" parent="Team2"]
+z_index = -4
+layout_mode = 2
+size_flags_vertical = 3
+texture = SubResource("PlaceholderTexture2D_o28iv")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 419.0
+offset_top = 529.0
+offset_right = 632.0
+offset_bottom = 569.0
+scale = Vector2(2.51595, 1.66214)
+
+[node name="Start" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Start Game"
+
+[node name="Ready" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Ready"
+
+[node name="LobbySynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_nmksa")
+
+[connection signal="pressed" from="HBoxContainer/Start" to="." method="_on_start_pressed"]

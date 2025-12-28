@@ -13,8 +13,8 @@ gradient = SubResource("Gradient_mjqme")
 script = ExtResource("1_vugom")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(597, 320)
-scale = Vector2(4.63534, -623.711)
+position = Vector2(583, 635)
+scale = Vector2(12.0177, -1300.09)
 texture = SubResource("GradientTexture1D_fafl1")
 
 [node name="Players" type="Node2D" parent="."]
