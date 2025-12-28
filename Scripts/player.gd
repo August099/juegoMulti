@@ -6,37 +6,47 @@ var maxSpeed = 15000
 var friction = 0.2
 
 func _ready():
-	pass
+	# Set the camera as current if we are this player.
+	if player == multiplayer.get_unique_id():
+		$Camera2D.make_current()
+		
 
-# Set by the authority, synchronized on spawn.
-@export var player := 1 :
+# Set by the authority, synchronized on spawn
+@export var player := 1:
 	set(id):
 		player = id
-		# Give authority over the player input to the appropriate peer.
+		# Give authority over input to the owning peer
 		$PlayerInput.set_multiplayer_authority(id)
 
-func _process(delta):
-	if !is_multiplayer_authority(): return
+@onready var input := $PlayerInput
+
+func _physics_process(delta):
+	if !is_multiplayer_authority():
+		return
+
+	var dir : Vector2 = input.move_direction
+	var friction_x := true
+	var friction_y := true
 	
-	var frictionX = true
-	var frictionY = true
-	
-	if Input.is_action_pressed("MoveRight"):
-		velocity.x = min(velocity.x + speed * delta, maxSpeed * delta)
-		frictionX = false
-	if Input.is_action_pressed("MoveUp"):
-		velocity.y = max(velocity.y - speed * delta, -maxSpeed * delta)
-		frictionY = false
-	if Input.is_action_pressed("MoveLeft"):
-		velocity.x = max(velocity.x - speed * delta, -maxSpeed * delta)
-		frictionX = false
-	if Input.is_action_pressed("MoveDown"):
-		velocity.y = min(velocity.y + speed * delta, maxSpeed * delta)
-		frictionY = false
-		
-	if frictionX:
+	if dir.x != 0:
+		velocity.x = clamp(
+			velocity.x + dir.x * speed * delta,
+			-maxSpeed * delta,
+			maxSpeed * delta
+		)
+		friction_x = false
+
+	if dir.y != 0:
+		velocity.y = clamp(
+			velocity.y + dir.y * speed * delta,
+			-maxSpeed * delta,
+			maxSpeed * delta
+		)
+		friction_y = false
+
+	if friction_x:
 		velocity.x = lerp(velocity.x, 0.0, friction)
-	if frictionY:
+	if friction_y:
 		velocity.y = lerp(velocity.y, 0.0, friction)
-	
+
 	move_and_slide()

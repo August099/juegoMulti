@@ -19,8 +19,6 @@ func _ready():
 
 
 func _on_host_pressed():
-	print('a')
-	
 	# Start as server
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_server(PORT)
@@ -32,7 +30,7 @@ func _on_host_pressed():
 
 func _on_join_pressed():
 	# Start as client
-	var txt : String = $UI/Net/Options/Remote.text
+	var txt : String = $UI/Net/Options/IP.text
 	if txt == "":
 		OS.alert("Need a remote to connect to.")
 		return

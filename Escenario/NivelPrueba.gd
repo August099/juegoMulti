@@ -1,8 +1,6 @@
 extends Node2D
 
 
-const SPAWN_RANDOM := 5.0
-
 func _ready():
 	# We only need to spawn players on the server.
 	if not multiplayer.is_server():

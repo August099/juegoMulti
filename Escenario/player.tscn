@@ -1,13 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://o4svm0t826cc"]
+[gd_scene load_steps=7 format=3 uid="uid://o4svm0t826cc"]
 
 [ext_resource type="Texture2D" uid="uid://c0dshid8bvmgb" path="res://icon.svg" id="1_kui6b"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="2_the84"]
+[ext_resource type="Script" path="res://Multijugador/PlayerInput.gd" id="3_xi4e7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cn6yd"]
 size = Vector2(124, 122)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_f60nh"]
-properties/0/path = NodePath("CharacterBody2D:position")
+properties/0/path = NodePath(".:player")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_5twf3"]
+properties/0/path = NodePath("PlayerInput:move_direction")
 properties/0/spawn = true
 properties/0/sync = true
 properties/0/watch = false
@@ -25,3 +36,7 @@ texture = ExtResource("1_kui6b")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_f60nh")
+
+[node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_5twf3")
+script = ExtResource("3_xi4e7")
