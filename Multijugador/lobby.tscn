@@ -1,10 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://7q4nos6agjce"]
 
 [ext_resource type="Script" path="res://Multijugador/lobby.gd" id="1_llcn6"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_41qfd"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_o28iv"]
+[ext_resource type="FontFile" uid="uid://bisub7n1yci2n" path="res://Assets/Font/Alkatra-VariableFont_wght.ttf" id="2_2mab7"]
+[ext_resource type="Texture2D" uid="uid://c811xiocv86uv" path="res://Assets/Menu/wait.svg" id="3_uh1bt"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nmksa"]
 properties/0/path = NodePath(".:players")
@@ -21,17 +19,99 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_llcn6")
 
-[node name="Label" type="Label" parent="."]
+[node name="LobbyLabel" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -27.0
-offset_top = 73.0
-offset_right = 25.0
-offset_bottom = 99.0
+offset_left = -58.0
+offset_top = 10.0
+offset_right = -6.0
+offset_bottom = 36.0
 grow_horizontal = 2
+scale = Vector2(2, 2)
 text = "LOBBY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Team1" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(450, 350)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 20.0
+offset_top = -175.0
+offset_right = 470.0
+offset_bottom = 175.0
+grow_vertical = 2
+
+[node name="PlayerList" type="GridContainer" parent="Team1"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="Team1/PlayerList"]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_2mab7")
+theme_override_font_sizes/font_size = 50
+text = "asdasdasd"
+
+[node name="TextureRect" type="TextureRect" parent="Team1/PlayerList"]
+modulate = Color(0.164706, 0.886275, 0.172549, 1)
+layout_mode = 2
+size_flags_horizontal = 8
+texture = ExtResource("3_uh1bt")
+expand_mode = 2
+
+[node name="Team2" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(450, 350)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -470.0
+offset_top = -175.0
+offset_right = -20.0
+offset_bottom = 175.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="PlayerList" type="GridContainer" parent="Team2"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="Team2/PlayerList"]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_2mab7")
+theme_override_font_sizes/font_size = 50
+text = "asdasdasd"
+
+[node name="TextureRect" type="TextureRect" parent="Team2/PlayerList"]
+modulate = Color(0.164706, 0.886275, 0.172549, 1)
+layout_mode = 2
+size_flags_horizontal = 8
+texture = ExtResource("3_uh1bt")
+expand_mode = 2
+
+[node name="Start" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -92.0
+offset_top = -103.0
+offset_right = 4.0
+offset_bottom = -72.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(2, 2)
+text = "Start Game"
 
 [node name="Leave" type="Button" parent="."]
 layout_mode = 2
@@ -39,53 +119,42 @@ offset_left = 32.0
 offset_top = 37.0
 offset_right = 85.0
 offset_bottom = 68.0
+scale = Vector2(2, 2)
 text = "Leave"
 
-[node name="Team1" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 269.0
-offset_top = 142.0
-offset_right = 309.0
-offset_bottom = 182.0
-scale = Vector2(7.1858, 8.65834)
-
-[node name="TextureRect" type="TextureRect" parent="Team1"]
-z_index = -4
-layout_mode = 2
-size_flags_vertical = 3
-texture = SubResource("PlaceholderTexture2D_41qfd")
-
-[node name="Team2" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 578.0
-offset_top = 140.0
-offset_right = 618.0
-offset_bottom = 180.0
-scale = Vector2(7.82349, 8.66099)
-
-[node name="TextureRect" type="TextureRect" parent="Team2"]
-z_index = -4
-layout_mode = 2
-size_flags_vertical = 3
-texture = SubResource("PlaceholderTexture2D_o28iv")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 419.0
-offset_top = 529.0
-offset_right = 632.0
-offset_bottom = 569.0
-scale = Vector2(2.51595, 1.66214)
-
-[node name="Start" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-text = "Start Game"
-
-[node name="Ready" type="Button" parent="HBoxContainer"]
-layout_mode = 2
+[node name="Ready" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = 212.0
+offset_right = -124.0
+offset_bottom = 252.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(2, 2)
 text = "Ready"
+
+[node name="Change Team" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 52.0
+offset_top = -103.0
+offset_right = 165.0
+offset_bottom = -72.0
+grow_vertical = 0
+scale = Vector2(2, 2)
+text = "Change Team"
 
 [node name="LobbySynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_nmksa")
 
-[connection signal="pressed" from="HBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Leave" to="." method="_on_leave_pressed"]
+[connection signal="pressed" from="Ready" to="." method="_on_ready_pressed"]
+[connection signal="pressed" from="Change Team" to="." method="_on_change_team_pressed"]
