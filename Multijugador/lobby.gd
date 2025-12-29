@@ -94,6 +94,10 @@ func update_players_replica(replica: Dictionary):
 	
 	check_all_ready()
 
+########################
+# READY OR NOT
+###########################
+
 func _on_ready_pressed():
 	if not multiplayer.has_multiplayer_peer():
 		return
@@ -176,7 +180,16 @@ func update_ui():
 		
 		# Agrego ademas un icono de ready o no
 		var readyState := TextureRect.new()
-		readyState.texture = load("res://Assets/Menu/wait.svg")
+		var readySprite = load("res://Assets/Menu/thumbs_up.svg")
+		var notReadySprite = load("res://Assets/Menu/wait.svg")
+		
+		if p.ready:
+			readyState.texture = readySprite
+			readyState.modulate = Color("#2ae22c")
+		else:
+			readyState.texture = notReadySprite
+			readyState.modulate = Color("#ff302c")
+			
 		readyState.expand_mode = TextureRect.EXPAND_FIT_WIDTH
 		readyState.size_flags_horizontal = Control.SIZE_SHRINK_END
 		readyState.size_flags_vertical = Control.SIZE_FILL
@@ -226,3 +239,46 @@ func _on_leave_pressed():
 		multiplayer.multiplayer_peer.close()
 	
 
+
+########################
+# CAMBIO DE EQUIPO
+###########################
+
+func _on_change_team_pressed():
+	if not multiplayer.has_multiplayer_peer():
+		return
+	
+	var my_id := multiplayer.get_unique_id()
+	
+	if multiplayer.is_server():
+		change_team(my_id)
+	else:
+		rpc_id(1, "request_change_team", my_id)
+
+@rpc("any_peer", "reliable")
+func request_change_team(player_id: int):
+	if multiplayer.is_server():
+		change_team(player_id)
+		
+		
+func change_team(player_id: int):
+	if not multiplayer.is_server():
+		return
+	
+	if not players.has(player_id):
+		return
+	
+	# Toggle team
+	var current_team = players[player_id].team
+	var new_team := 2 if current_team == 1 else 1
+	
+	players[player_id].team = new_team
+	
+	# Reset ready state (recommended)
+	players[player_id].ready = false
+	
+	_players_replica = players.duplicate(true)
+	rpc("update_players_replica", _players_replica)
+	
+	update_ui()
+	check_all_ready()

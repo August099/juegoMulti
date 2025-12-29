@@ -58,6 +58,7 @@ theme_override_font_sizes/font_size = 50
 text = "asdasdasd"
 
 [node name="TextureRect" type="TextureRect" parent="Team1/PlayerList"]
+modulate = Color(0.164706, 0.886275, 0.172549, 1)
 layout_mode = 2
 size_flags_horizontal = 8
 texture = ExtResource("3_uh1bt")
@@ -81,6 +82,20 @@ grow_vertical = 2
 [node name="PlayerList" type="GridContainer" parent="Team2"]
 layout_mode = 2
 columns = 2
+
+[node name="Label" type="Label" parent="Team2/PlayerList"]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_2mab7")
+theme_override_font_sizes/font_size = 50
+text = "asdasdasd"
+
+[node name="TextureRect" type="TextureRect" parent="Team2/PlayerList"]
+modulate = Color(0.164706, 0.886275, 0.172549, 1)
+layout_mode = 2
+size_flags_horizontal = 8
+texture = ExtResource("3_uh1bt")
+expand_mode = 2
 
 [node name="Start" type="Button" parent="."]
 layout_mode = 1
@@ -109,19 +124,32 @@ text = "Leave"
 
 [node name="Ready" type="Button" parent="."]
 layout_mode = 1
-anchors_preset = 3
+anchors_preset = 6
 anchor_left = 1.0
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -141.0
-offset_top = -112.0
-offset_right = -85.0
-offset_bottom = -72.0
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = 212.0
+offset_right = -124.0
+offset_bottom = 252.0
 grow_horizontal = 0
-grow_vertical = 0
+grow_vertical = 2
 scale = Vector2(2, 2)
 text = "Ready"
+
+[node name="Change Team" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 52.0
+offset_top = -103.0
+offset_right = 165.0
+offset_bottom = -72.0
+grow_vertical = 0
+scale = Vector2(2, 2)
+text = "Change Team"
 
 [node name="LobbySynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_nmksa")
@@ -129,3 +157,4 @@ replication_config = SubResource("SceneReplicationConfig_nmksa")
 [connection signal="pressed" from="Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="Leave" to="." method="_on_leave_pressed"]
 [connection signal="pressed" from="Ready" to="." method="_on_ready_pressed"]
+[connection signal="pressed" from="Change Team" to="." method="_on_change_team_pressed"]
