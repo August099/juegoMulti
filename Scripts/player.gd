@@ -5,6 +5,8 @@ var speed = 2000
 var maxSpeed = 15000
 var friction = 0.2
 
+@onready var camera = $Camera2D
+
 func _ready():
 	# Set the camera as current if we are this player.
 	if player == multiplayer.get_unique_id():
@@ -50,3 +52,11 @@ func _physics_process(delta):
 		velocity.y = lerp(velocity.y, 0.0, friction)
 
 	move_and_slide()
+
+func _input(event):
+	if Input.is_action_just_pressed('ZoomIn'):
+		var zoom_value = camera.zoom.x + 0.2
+		camera.zoom = Vector2(zoom_value, zoom_value)
+	if Input.is_action_just_pressed('ZoomOut'):
+		var zoom_value = camera.zoom.x - 0.2
+		camera.zoom = Vector2(zoom_value, zoom_value)
