@@ -14,6 +14,11 @@ _spawnable_scenes = PackedStringArray("res://Escenario/NivelPrueba.tscn")
 spawn_path = NodePath("../Level")
 spawn_limit = 1
 
+[node name="LobbySpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Multijugador/lobby.tscn")
+spawn_path = NodePath("../Lobby")
+spawn_limit = 1
+
 [node name="UI" type="Control" parent="."]
 process_mode = 3
 layout_mode = 3
@@ -55,11 +60,12 @@ size_flags_vertical = 0
 text = "127.0.0.1"
 placeholder_text = "Host IP"
 
-[node name="PlayerName" type="TextEdit" parent="UI/Net/Options"]
+[node name="PlayerName" type="LineEdit" parent="UI/Net/Options"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "PLAYER"
 placeholder_text = "PLAYER NAME"
+max_length = 15
 
 [connection signal="pressed" from="UI/Net/Options/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="UI/Net/Options/Join" to="." method="_on_join_pressed"]
