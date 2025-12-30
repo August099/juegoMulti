@@ -158,7 +158,6 @@ func check_all_ready():
 		pass
 
 func update_ui():
-	print(players)
 	
 	if !is_inside_tree():
 		return

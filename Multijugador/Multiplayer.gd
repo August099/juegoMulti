@@ -3,9 +3,17 @@ extends Node
 
 const PORT = 4433
 
+signal gameStateChanged(gamestate)
+
+# Signals for connection events
 signal player_connected(_peerID: int)
 signal player_disconnected(_peerID: int)
 signal server_disconnected()
+
+enum GameState{MENU, LOBBY, IN_GAME}
+
+@export var game_state := GameState.MENU
+
 
 func _ready():
 	# Start paused.
@@ -13,6 +21,7 @@ func _ready():
 	# You can save bandwidth by disabling server relay and peer notifications.
 	multiplayer.server_relay = false
 	
+	multiplayer.peer_connected.connect(_player_connected)
 	multiplayer.peer_disconnected.connect(_player_disconnected)
 	multiplayer.server_disconnected.connect(_server_disconnected)
 
@@ -28,12 +37,16 @@ func _ready():
 # Abro el puerto
 func setup_upnp(port: int):
 	var upnp := UPNP.new()
+	
 	var result = upnp.discover()
-	if result == UPNP.UPNP_RESULT_SUCCESS:
-		upnp.add_port_mapping(port)
-		print("UPnP port opened:", port)
-	else:
-		print("UPnP failed:", result)
+	assert(result == UPNP.UPNP_RESULT_SUCCESS, "UPNP Discover Failed! Error %s" % result)
+	
+	assert(upnp.get_gateway() and upnp.get_gateway().is_valid_gateway(), "UPNP Ivalid Gateway!")
+	
+	var map_result = upnp.add_port_mapping(port)
+	assert(map_result == UPNP.UPNP_RESULT_SUCCESS, "UPNP Port Mapping Failed! Error %s" % map_result)
+	
+	print("UPNP Created. Join Adress: %s" % upnp.query_external_address())
 
 
 func _on_host_pressed():
@@ -48,22 +61,28 @@ func _on_host_pressed():
 		return
 	multiplayer.multiplayer_peer = peer
 	
+	game_state = GameState.LOBBY
 	go_lobby()
+	print("server gamestate", game_state)	
 
 func _on_join_pressed():
+	
 	# Start as client
-	var txt : String = $UI/Net/Options/IP.text
-	if txt == "":
+	var adress : String = $UI/Net/Options/IP.text
+	
+	if adress == "":
 		OS.alert("Need a remote to connect to.")
 		return
+	
 	var peer = ENetMultiplayerPeer.new()
-	peer.create_client(txt, PORT)
+	
+	peer.create_client(adress, PORT)
+	
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
 		OS.alert("Failed to start multiplayer client")
 		return
-	multiplayer.multiplayer_peer = peer
 	
-	go_lobby()
+	multiplayer.multiplayer_peer = peer
 	
 	
 
@@ -85,14 +104,11 @@ func go_lobby():
 	$LobbySpawner.spawn_function = _spawn_lobby_callback
 	
 	# Server spawns the lobby
-	if multiplayer.is_server():
+	if multiplayer.is_server() and $Lobby.get_child_count() == 0:
 		$LobbySpawner.spawn([multiplayer.get_unique_id()])
 	
 	await wait_for_connection()
-	print("connection waited")	
-	print($Lobby.get_child_count())
 	await wait_for_lobby()
-	print("lobby waited")
 	
 	lobbyScene = $Lobby.get_child(0) if $Lobby.get_child_count() > 0 else null
 	
@@ -155,6 +171,7 @@ func register_player(playerName: String):
 
 @rpc("authority")
 func start_game():
+	
 	change_level("res://Escenario/NivelPrueba.tscn")
 
 func change_level(scene: String):
@@ -163,6 +180,7 @@ func change_level(scene: String):
 	var level := $Level
 	for c in level.get_children():
 		c.queue_free()
+		
 	level.add_child(load(scene).instantiate())
 	
 	print("level changed")
@@ -170,6 +188,21 @@ func change_level(scene: String):
 # ======================
 # DESCONEXION
 # ======================
+
+func _player_connected(peer_id: int):
+	rpc_id(peer_id, "receive_game_state_from_server", game_state)
+	
+@rpc("authority", "reliable")
+func receive_game_state_from_server(state: int):
+	game_state = state
+	print("Signal game state",game_state)
+	
+	# Check game state before joining lobby
+	if game_state == GameState.LOBBY:
+		go_lobby()
+	else:
+		multiplayer.multiplayer_peer.close()
+		OS.alert("Server not in lobby")
 
 func _player_disconnected(peer_id: int):
 	print("Peer disconnected:", peer_id)
@@ -179,7 +212,8 @@ func _player_disconnected(peer_id: int):
 
 func _server_disconnected():
 	print("Server disconnected")
-
+	
+	game_state = GameState.MENU
 	_cleanup_and_return_to_menu()
 	
 func _cleanup_and_return_to_menu():
