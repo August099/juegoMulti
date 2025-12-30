@@ -60,3 +60,5 @@ func _input(event):
 	if Input.is_action_just_pressed('ZoomOut'):
 		var zoom_value = camera.zoom.x - 0.2
 		camera.zoom = Vector2(zoom_value, zoom_value)
+	if Input.is_action_just_pressed("ui_accept"):
+		get_tree().reload_current_scene()

@@ -32,6 +32,7 @@ var height: int = 200
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	noise = noise_height_text.noise
+	noise.seed = randi()
 	tree_noise = noise_tree_text.noise
 	generate_world()
 
