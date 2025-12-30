@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b08frp5hp6qpp"
-path="res://.godot/imported/BigRedButton_Regular.png-5dff1e876b9f5abd153566ecb0f3b9af.ctex"
+path="res://.godot/imported/BigRedButton_Regular.png-1dab787d3553affdd1bb2f2deb96eb3b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/UI Elements/UI Elements/Buttons/BigRedButton_Regular.png"
-dest_files=["res://.godot/imported/BigRedButton_Regular.png-5dff1e876b9f5abd153566ecb0f3b9af.ctex"]
+source_file="res://assets/UI Elements/UI Elements/Buttons/BigRedButton_Regular.png"
+dest_files=["res://.godot/imported/BigRedButton_Regular.png-1dab787d3553affdd1bb2f2deb96eb3b.ctex"]
 
 [params]
 

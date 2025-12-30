@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b3muts4fnljn3"
-path="res://.godot/imported/Gold Stone 6_Highlight.png-9d9e5b689fb3c399b5f23b8880d1fb90.ctex"
+path="res://.godot/imported/Gold Stone 6_Highlight.png-79df849db009c62e2100c710d08c3040.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Terrain/Resources/Gold/Gold Stones/Gold Stone 6_Highlight.png"
-dest_files=["res://.godot/imported/Gold Stone 6_Highlight.png-9d9e5b689fb3c399b5f23b8880d1fb90.ctex"]
+source_file="res://assets/Terrain/Resources/Gold/Gold Stones/Gold Stone 6_Highlight.png"
+dest_files=["res://.godot/imported/Gold Stone 6_Highlight.png-79df849db009c62e2100c710d08c3040.ctex"]
 
 [params]
 
