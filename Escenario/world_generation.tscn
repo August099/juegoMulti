@@ -7830,3 +7830,4 @@ layer_4/tile_data = PackedInt32Array()
 
 [node name="player" parent="." instance=ExtResource("12_lk7rx")]
 z_index = 6
+position = Vector2(577, 328)
