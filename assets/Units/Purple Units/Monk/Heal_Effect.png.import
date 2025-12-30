@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bawf0gtmbtle5"
-path="res://.godot/imported/Heal_Effect.png-f8f54518ea741e7d6f35f59a2daf50ab.ctex"
+path="res://.godot/imported/Heal_Effect.png-ac9c88d84b46f1877ce8677a0faf9d18.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Units/Purple Units/Monk/Heal_Effect.png"
-dest_files=["res://.godot/imported/Heal_Effect.png-f8f54518ea741e7d6f35f59a2daf50ab.ctex"]
+source_file="res://Assets/Units/Purple Units/Monk/Heal_Effect.png"
+dest_files=["res://.godot/imported/Heal_Effect.png-ac9c88d84b46f1877ce8677a0faf9d18.ctex"]
 
 [params]
 
