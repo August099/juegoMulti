@@ -42,7 +42,7 @@ anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 20.0
 offset_top = -175.0
-offset_right = 470.0
+offset_right = 530.0
 offset_bottom = 175.0
 grow_vertical = 2
 
@@ -51,7 +51,7 @@ layout_mode = 2
 columns = 2
 
 [node name="Label" type="Label" parent="Team1/PlayerList"]
-custom_minimum_size = Vector2(350, 0)
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_2mab7")
 theme_override_font_sizes/font_size = 50
@@ -72,7 +72,7 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -470.0
+offset_left = -530.0
 offset_top = -175.0
 offset_right = -20.0
 offset_bottom = 175.0
@@ -84,7 +84,7 @@ layout_mode = 2
 columns = 2
 
 [node name="Label" type="Label" parent="Team2/PlayerList"]
-custom_minimum_size = Vector2(350, 0)
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_2mab7")
 theme_override_font_sizes/font_size = 50
@@ -105,9 +105,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -92.0
-offset_top = -103.0
+offset_top = -98.0
 offset_right = 4.0
-offset_bottom = -72.0
+offset_bottom = -67.0
 grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(2, 2)
@@ -124,17 +124,17 @@ text = "Leave"
 
 [node name="Ready" type="Button" parent="."]
 layout_mode = 1
-anchors_preset = 6
+anchors_preset = 3
 anchor_left = 1.0
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -180.0
-offset_top = 212.0
-offset_right = -124.0
-offset_bottom = 252.0
+anchor_bottom = 1.0
+offset_left = -177.0
+offset_top = -107.0
+offset_right = -121.0
+offset_bottom = -67.0
 grow_horizontal = 0
-grow_vertical = 2
+grow_vertical = 0
 scale = Vector2(2, 2)
 text = "Ready"
 
