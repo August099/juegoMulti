@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bqj8a1yjg0ubf"
-path="res://.godot/imported/Archer_Idle.png-48e0f63b0c90f4e78078811812c96183.ctex"
+path="res://.godot/imported/Archer_Idle.png-180f294875bd3a631bdcaac76e4a0b6a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Units/Blue Units/Archer/Archer_Idle.png"
-dest_files=["res://.godot/imported/Archer_Idle.png-48e0f63b0c90f4e78078811812c96183.ctex"]
+source_file="res://assets/Units/Blue Units/Archer/Archer_Idle.png"
+dest_files=["res://.godot/imported/Archer_Idle.png-180f294875bd3a631bdcaac76e4a0b6a.ctex"]
 
 [params]
 

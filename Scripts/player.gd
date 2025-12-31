@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
 var moving = false
-var speed = 2000
-var maxSpeed = 15000
+var speed = 20000 #2000
+var maxSpeed = 150000 #15000
 var friction = 0.2
 
 @onready var camera = $Camera2D
