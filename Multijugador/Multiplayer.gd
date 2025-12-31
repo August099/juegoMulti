@@ -63,7 +63,6 @@ func _on_host_pressed():
 	
 	game_state = GameState.LOBBY
 	go_lobby()
-	print("server gamestate", game_state)	
 
 func _on_join_pressed():
 	
@@ -201,7 +200,6 @@ func _player_connected(peer_id: int):
 @rpc("authority", "reliable")
 func receive_game_state_from_server(state: int):
 	game_state = state
-	print("Signal game state",game_state)
 	
 	# Check game state before joining lobby
 	if game_state == GameState.LOBBY:

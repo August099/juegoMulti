@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://o4svm0t826cc"]
+[gd_scene load_steps=10 format=3 uid="uid://o4svm0t826cc"]
 
 [ext_resource type="Texture2D" uid="uid://c0dshid8bvmgb" path="res://icon.svg" id="1_kui6b"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="2_the84"]
@@ -6,6 +6,8 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cn6yd"]
 size = Vector2(124, 122)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ecv0n"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_f60nh"]
 properties/0/path = NodePath(".:player")
@@ -23,6 +25,17 @@ properties/0/spawn = true
 properties/0/sync = true
 properties/0/watch = false
 
+[sub_resource type="Gradient" id="Gradient_re428"]
+offsets = PackedFloat32Array(0.525862)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gd8pr"]
+gradient = SubResource("Gradient_re428")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="player" type="CharacterBody2D"]
 collision_mask = 2
 script = ExtResource("2_the84")
@@ -31,6 +44,7 @@ script = ExtResource("2_the84")
 shape = SubResource("RectangleShape2D_cn6yd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_ecv0n")
 texture = ExtResource("1_kui6b")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -41,3 +55,11 @@ replication_config = SubResource("SceneReplicationConfig_f60nh")
 [node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_5twf3")
 script = ExtResource("3_xi4e7")
+
+[node name="Vision" type="PointLight2D" parent="."]
+position = Vector2(4, 0)
+energy = 0.8
+blend_mode = 2
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_gd8pr")
+texture_scale = 11.26

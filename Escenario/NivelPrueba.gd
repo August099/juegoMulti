@@ -9,21 +9,23 @@ enum GameState{MENU, LOBBY, IN_GAME}
 func _ready():
 	
 	# We only need to spawn players on the server.
-	if not multiplayer.is_server():
-		return
-	
-	multiplayer.peer_connected.connect(add_player)
-	multiplayer.peer_disconnected.connect(del_player)
+	if multiplayer.is_server():
+		
+		multiplayer.peer_connected.connect(add_player)
+		multiplayer.peer_disconnected.connect(del_player)
 
-	# Spawn already connected players
-	for id in multiplayer.get_peers():
-		add_player(id)
-		
-	# Spawn the local player unless this is a dedicated server export.
-	if not OS.has_feature("dedicated_server"):
-		add_player(1)
-		
-	multiplayer_node.game_state = GameState.IN_GAME
+		# Spawn already connected players
+		for id in multiplayer.get_peers():
+			add_player(id)
+			
+		# Spawn the local player unless this is a dedicated server export.
+		if not OS.has_feature("dedicated_server"):
+			add_player(1)
+			
+		multiplayer_node.game_state = GameState.IN_GAME
+	
+	await wait_for_multiple_players()
+	set_fow()
 
 
 func _exit_tree():
@@ -64,3 +66,35 @@ func set_spawn_point(id: int):
 		position = $Spawn2.position + rand_spawn
 		
 	return position
+
+
+
+###############
+# NIEBLA DE GUERRA
+###############
+
+func set_fow():
+	
+	var team = multiplayer_node.players[multiplayer.get_unique_id()]["team"]
+	
+	print("Player: ", multiplayer.get_unique_id(), " TEAM: ", team, " Children: ", $Players.get_children())
+	
+	for id in multiplayer_node.players:
+		if multiplayer_node.players[id].team != team:
+			var enemy = $Players.get_node(str(id))
+			var light = enemy.get_node("Vision")
+			
+			light.enabled = false
+			
+			print("Changed Player: ", id, " with light set to ", light.enabled)
+			
+			var sprite = enemy.get_node("Sprite2D")
+			
+			var mat = CanvasItemMaterial.new()
+			mat.light_mode = CanvasItemMaterial.LIGHT_MODE_LIGHT_ONLY
+			
+			sprite.material = mat
+
+func wait_for_multiple_players() -> void:
+	while $Players.get_child_count() < multiplayer_node.players.size():
+		await $Players.child_entered_tree
