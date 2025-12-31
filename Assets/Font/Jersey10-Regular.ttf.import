@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://bisub7n1yci2n"
-path="res://.godot/imported/Alkatra-VariableFont_wght.ttf-65c91fdea42471752c40110f942078c5.fontdata"
+uid="uid://dn5hilmibooas"
+path="res://.godot/imported/Jersey10-Regular.ttf-40c2bce12ddb27c2682bbd835c63f93b.fontdata"
 
 [deps]
 
-source_file="res://Assets/Font/Alkatra-VariableFont_wght.ttf"
-dest_files=["res://.godot/imported/Alkatra-VariableFont_wght.ttf-65c91fdea42471752c40110f942078c5.fontdata"]
+source_file="res://Assets/Font/Jersey10-Regular.ttf"
+dest_files=["res://.godot/imported/Jersey10-Regular.ttf-40c2bce12ddb27c2682bbd835c63f93b.fontdata"]
 
 [params]
 

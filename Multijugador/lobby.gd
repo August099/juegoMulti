@@ -1,5 +1,7 @@
 extends Control
 
+@onready var multiplayer_node = get_node("/root/Multiplayer")
+
 # This dictionary is automatically synced
 @export var players := {}  # peer_id -> { name, team, ready }
 
@@ -167,7 +169,9 @@ func update_ui():
 	for c in $Team2/PlayerList.get_children():
 		c.queue_free()
 
-	for p in players.values():
+	for player_id in players:
+		var p = players[player_id]
+		
 		# Cuando entra un jugador agrego su nombre en la lsita		
 		var label := Label.new()
 		label.text = p.name
@@ -176,6 +180,10 @@ func update_ui():
 		
 		label.add_theme_font_size_override("font_size", 50)
 		label.custom_minimum_size = Vector2(450, 0)
+		
+		# Si es el servidor cambio el color del nombre
+		if player_id == 1:
+			label.add_theme_color_override("font_color", Color("d0d624"))
 		
 		# Agrego ademas un icono de ready o no
 		var readyState := TextureRect.new()
@@ -199,6 +207,9 @@ func update_ui():
 		else:
 			$Team2/PlayerList.add_child(label)
 			$Team2/PlayerList.add_child(readyState)
+	
+	# Update players dict in multiplayer node
+	multiplayer_node.players = players
 	
 	# Show/hide start button based on authority
 	$Start.visible = multiplayer.is_server()
@@ -230,12 +241,7 @@ func remove_player(peer_id: int):
 
 
 func _on_leave_pressed():
-	if multiplayer.is_server():
-		# Host leaves → everyone disconnects
-		multiplayer.multiplayer_peer.close()
-	else:
-		# Client leaves → disconnect
-		multiplayer.multiplayer_peer.close()
+	multiplayer.multiplayer_peer.close()
 	
 
 

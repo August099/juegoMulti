@@ -22,6 +22,11 @@ window/size/viewport_height=900
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[gui]
+
+theme/custom="res://Assets/Themes/Pixel.tres"
+theme/custom_font="res://Assets/Font/Jersey10-Regular.ttf"
+
 [input]
 
 MoveUp={

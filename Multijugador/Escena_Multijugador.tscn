@@ -28,44 +28,73 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Net" type="VBoxContainer" parent="UI"]
+[node name="Net" type="PanelContainer" parent="UI"]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -222.0
-offset_top = 21.0
-offset_right = 222.0
-offset_bottom = 52.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 438.0
+offset_top = 270.0
+offset_right = -438.0
+offset_bottom = -270.0
 grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Options" type="HBoxContainer" parent="UI/Net"]
+[node name="Margins" type="MarginContainer" parent="UI/Net"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="Options" type="VBoxContainer" parent="UI/Net/Margins"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="UI/Net/Margins/Options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "CONNECTIONS"
+horizontal_alignment = 1
+
+[node name="Control3" type="Control" parent="UI/Net/Margins/Options"]
 layout_mode = 2
 
-[node name="Host" type="Button" parent="UI/Net/Options"]
+[node name="PlayerName" type="LineEdit" parent="UI/Net/Margins/Options"]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "PLAYER NAME"
+placeholder_text = "PLAYER NAME"
+alignment = 1
+max_length = 15
+
+[node name="Control" type="Control" parent="UI/Net/Margins/Options"]
+layout_mode = 2
+
+[node name="Host" type="Button" parent="UI/Net/Margins/Options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
 text = "Host
 "
 
-[node name="Join" type="Button" parent="UI/Net/Options"]
+[node name="Control2" type="Control" parent="UI/Net/Margins/Options"]
 layout_mode = 2
+
+[node name="Join" type="Button" parent="UI/Net/Margins/Options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
 text = "Join
 "
 
-[node name="IP" type="LineEdit" parent="UI/Net/Options"]
+[node name="IP" type="LineEdit" parent="UI/Net/Margins/Options"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 40
 text = "127.0.0.1"
 placeholder_text = "Host IP"
+alignment = 1
 
-[node name="PlayerName" type="LineEdit" parent="UI/Net/Options"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-text = "PLAYER"
-placeholder_text = "PLAYER NAME"
-max_length = 15
-
-[connection signal="pressed" from="UI/Net/Options/Host" to="." method="_on_host_pressed"]
-[connection signal="pressed" from="UI/Net/Options/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="UI/Net/Margins/Options/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="UI/Net/Margins/Options/Join" to="." method="_on_join_pressed"]

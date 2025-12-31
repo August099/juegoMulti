@@ -1,11 +1,13 @@
 extends Node2D
 
+# Get properties from multiplayer node
 @onready var multiplayer_node = get_node("/root/Multiplayer")
-@onready var game_state = multiplayer_node.game_state
 
+# Game states
 enum GameState{MENU, LOBBY, IN_GAME}
 
 func _ready():
+	
 	# We only need to spawn players on the server.
 	if not multiplayer.is_server():
 		return
@@ -22,9 +24,6 @@ func _ready():
 		add_player(1)
 		
 	multiplayer_node.game_state = GameState.IN_GAME
-	game_state = multiplayer_node.game_state
-	
-	print("changed gamestate from level:", game_state)
 
 
 func _exit_tree():
@@ -40,12 +39,28 @@ func add_player(id: int):
 	character.player = id
 	character.name = str(id)
 	
-	print("player id added to match: ", id, "current game state: ", game_state)
-	if game_state == GameState.LOBBY:
+	if multiplayer_node.game_state == GameState.LOBBY:
 		$Players.add_child(character, true)
+		
+		var player = $Players.get_node(str(id))
+		
+		player.position = set_spawn_point(id)
 
 
 func del_player(id: int):
 	if not $Players.has_node(str(id)):
 		return
 	$Players.get_node(str(id)).queue_free()
+	
+	
+func set_spawn_point(id: int):
+	var team = multiplayer_node.players[id]["team"]
+	
+	var rand_spawn = Vector2(randf_range(-2, 2), randf_range(-2, 2))
+	
+	if team == 1:
+		position = $Spawn1.position + rand_spawn
+	else:
+		position = $Spawn2.position + rand_spawn
+		
+	return position

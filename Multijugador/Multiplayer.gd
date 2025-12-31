@@ -68,7 +68,7 @@ func _on_host_pressed():
 func _on_join_pressed():
 	
 	# Start as client
-	var adress : String = $UI/Net/Options/IP.text
+	var adress : String = $UI/Net/Margins/Options/IP.text
 	
 	if adress == "":
 		OS.alert("Need a remote to connect to.")
@@ -92,6 +92,7 @@ func _on_join_pressed():
 
 var lobbyScene: Node = null
 
+@export var players := {} 
 
 func go_lobby():
 	
@@ -113,7 +114,7 @@ func go_lobby():
 	lobbyScene = $Lobby.get_child(0) if $Lobby.get_child_count() > 0 else null
 	
 	if lobbyScene:
-		send_player_name($UI/Net/Options/PlayerName.text)
+		send_player_name($UI/Net/Margins/Options/PlayerName.text)
 	
 	
 
@@ -147,8 +148,6 @@ func _spawn_lobby_callback(_data: Array):
 	$Lobby.add_child(lobby_instance, true)
 	return lobby_instance
 
-
-
 # Guardo el nombre del jugador
 func send_player_name(playerName: String):
 	if multiplayer.is_server():
@@ -175,15 +174,22 @@ func start_game():
 	change_level("res://Escenario/NivelPrueba.tscn")
 
 func change_level(scene: String):
-	lobbyScene.hide()
+	rpc("hide_lobby_for_game_start")
+	
+	# Clean up lobby on server
+	if lobbyScene:
+		lobbyScene.hide()
 	
 	var level := $Level
 	for c in level.get_children():
 		c.queue_free()
 		
 	level.add_child(load(scene).instantiate())
-	
-	print("level changed")
+
+@rpc("authority", "call_local", "reliable")
+func hide_lobby_for_game_start():
+	if lobbyScene:
+		lobbyScene.hide()
 
 # ======================
 # DESCONEXION

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://7q4nos6agjce"]
+[gd_scene load_steps=6 format=3 uid="uid://7q4nos6agjce"]
 
 [ext_resource type="Script" path="res://Multijugador/lobby.gd" id="1_llcn6"]
 [ext_resource type="FontFile" uid="uid://bisub7n1yci2n" path="res://Assets/Font/Alkatra-VariableFont_wght.ttf" id="2_2mab7"]
-[ext_resource type="Texture2D" uid="uid://c811xiocv86uv" path="res://Assets/Menu/wait.svg" id="3_uh1bt"]
+[ext_resource type="Texture2D" uid="uid://b81b8tg16p6qr" path="res://Assets/Menu/wait.svg" id="3_uh1bt"]
+[ext_resource type="Theme" uid="uid://yi7t7830b6ds" path="res://Assets/Themes/Pixel.tres" id="4_wtdr2"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nmksa"]
 properties/0/path = NodePath(".:players")
@@ -58,10 +59,9 @@ theme_override_font_sizes/font_size = 50
 text = "asdasdasd"
 
 [node name="TextureRect" type="TextureRect" parent="Team1/PlayerList"]
-modulate = Color(0.164706, 0.886275, 0.172549, 1)
+modulate = Color(0.980392, 0.184314, 0.184314, 1)
 layout_mode = 2
 size_flags_horizontal = 8
-texture = ExtResource("3_uh1bt")
 expand_mode = 2
 
 [node name="Team2" type="PanelContainer" parent="."]
@@ -120,6 +120,7 @@ offset_top = 37.0
 offset_right = 85.0
 offset_bottom = 68.0
 scale = Vector2(2, 2)
+theme = ExtResource("4_wtdr2")
 text = "Leave"
 
 [node name="Ready" type="Button" parent="."]
