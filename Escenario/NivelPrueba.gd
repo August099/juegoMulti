@@ -2,19 +2,30 @@ extends Node2D
 
 # Get properties from multiplayer node
 @onready var multiplayer_node = get_node("/root/Multiplayer")
+@onready var players = multiplayer_node.players
 
 # Game states
 enum GameState{MENU, LOBBY, IN_GAME}
 
+var world_seed
+var clients_ready_for_game = {}
+
 func _ready():
+	# Lockeo todo hasta que los jugadores tengan todo cargado
+	
+	
+	# Cambio todos los estados de ready por no, para usarlo en el contexto
+	# de carga de mapa y no de lobby
+	for id in players:
+		multiplayer_node.players[id].ready = false
 	
 	# We only need to spawn players on the server.
 	if multiplayer.is_server():
 		
+		# Agregar a los jugadores
 		multiplayer.peer_connected.connect(add_player)
 		multiplayer.peer_disconnected.connect(del_player)
 
-		# Spawn already connected players
 		for id in multiplayer.get_peers():
 			add_player(id)
 			
@@ -22,11 +33,33 @@ func _ready():
 		if not OS.has_feature("dedicated_server"):
 			add_player(1)
 			
+		# Cambio el estado del juego
+		multiplayer_node.game_state = GameState.IN_GAME
+		
+		await wait_clients()
+		
+		# Generacion del mundo
+		world_seed = randi()
+		
+		# Envio a los clientes a que generen el mundo y despues empieza el server a generarlo
+		rpc("receive_world_seed", world_seed, multiplayer_node.players)
+		_spawn_world()
+		
+	else :
+		# El cliente ya esta listo para recibir informacion
+		rpc_id(1, "client_ready_for_game")
+		
+		# Actualizo datos en los clientes
 		multiplayer_node.game_state = GameState.IN_GAME
 	
+	# Despues de que todos se unieron seteo la niebla de guerra para cada equipo
 	await wait_for_multiple_players()
 	set_fow()
-
+	
+	await every_map_loaded()
+	
+	
+	
 
 func _exit_tree():
 	if not multiplayer.is_server():
@@ -34,6 +67,9 @@ func _exit_tree():
 	multiplayer.peer_connected.disconnect(add_player)
 	multiplayer.peer_disconnected.disconnect(del_player)
 
+####################
+# AGREGAR JUGADORES AL NIVEL
+####################
 
 func add_player(id: int):
 	var character = preload("res://Escenario/player.tscn").instantiate()
@@ -42,12 +78,15 @@ func add_player(id: int):
 	character.name = str(id)
 	
 	if multiplayer_node.game_state == GameState.LOBBY:
+		# Agrego la escena del jugador
 		$Players.add_child(character, true)
 		
+		# Obtengo el nodo del jugador
 		var player = $Players.get_node(str(id))
 		
+		# Aleatorizo la posicion donde spawnea
 		player.position = set_spawn_point(id)
-
+		
 
 func del_player(id: int):
 	if not $Players.has_node(str(id)):
@@ -56,7 +95,7 @@ func del_player(id: int):
 	
 	
 func set_spawn_point(id: int):
-	var team = multiplayer_node.players[id]["team"]
+	var team = players[id]["team"]
 	
 	var rand_spawn = Vector2(randf_range(-2, 2), randf_range(-2, 2))
 	
@@ -75,26 +114,142 @@ func set_spawn_point(id: int):
 
 func set_fow():
 	
-	var team = multiplayer_node.players[multiplayer.get_unique_id()]["team"]
+	# Veo el equipo del jugador
+	var team = players[multiplayer.get_unique_id()]["team"]
 	
-	print("Player: ", multiplayer.get_unique_id(), " TEAM: ", team, " Children: ", $Players.get_children())
-	
-	for id in multiplayer_node.players:
-		if multiplayer_node.players[id].team != team:
-			var enemy = $Players.get_node(str(id))
-			var light = enemy.get_node("Vision")
+	# Si otro jugador no esta en su equipo elimina la luz que emite el jugador
+	# y los esconde detras de las sombras
+	for id in players:
+		var player = $Players.get_node(str(id))
+		
+		if players[id].team != team:
 			
-			light.enabled = false
+			# Escondo la luz que emite
+			player.get_node("Vision").enabled = false
 			
-			print("Changed Player: ", id, " with light set to ", light.enabled)
+			# Tambien escondo el nombre y la vida
+			player.get_node("Stats").visible = false
 			
-			var sprite = enemy.get_node("Sprite2D")
-			
+			# Creo un material visible unicamente con luz
 			var mat = CanvasItemMaterial.new()
 			mat.light_mode = CanvasItemMaterial.LIGHT_MODE_LIGHT_ONLY
 			
-			sprite.material = mat
+			# Agrego el material al sprite
+			player.get_node("Sprite2D").material = mat
+		
+		# Si el jugador si esta en su equipo
+		else:
+			
+			# Agrego su nombre
+			player.get_node("Stats").get_node("PlayerName").text = players[id]["name"]
+			
 
 func wait_for_multiple_players() -> void:
-	while $Players.get_child_count() < multiplayer_node.players.size():
+	while $Players.get_child_count() < players.size():
 		await $Players.child_entered_tree
+
+
+#####################################
+# GENERACION DEL MUNDO
+#####################################
+
+func _spawn_world():
+	
+	var world_scene := preload("res://Escenario/world_generation.tscn")
+	var world = world_scene.instantiate()
+	
+	world.world_seed = world_seed
+
+	add_child(world)
+	
+
+@rpc("any_peer", "reliable")
+func receive_world_seed(seed: int, players: Dictionary):
+	world_seed = seed
+	multiplayer_node.players = players
+	
+	_spawn_world()
+
+
+#####################################
+# PANTALLA DE CARGA
+#####################################
+
+################## Esto es porque tengo que esperar a que todos los clientes ejecuten _ready()
+@rpc("any_peer", "reliable")
+func client_ready_for_game():
+	var client_id = multiplayer.get_remote_sender_id()
+	clients_ready_for_game[client_id] = true
+
+# El servidor espera a que todos los clientes confirmen
+func wait_clients():
+	if not multiplayer.is_server():
+		return
+	
+	var expected_clients = multiplayer.get_peers()
+	
+	while clients_ready_for_game.size() < expected_clients.size():
+		await get_tree().process_frame
+
+
+
+################## Estas funciones son para ver si los jugadores ya generaron el mapa
+
+func player_ready():
+	if not multiplayer.has_multiplayer_peer():
+		return
+	
+	var id = multiplayer.get_unique_id()
+		
+	# Call server to update ready state
+	if multiplayer.is_server():
+		set_player_ready(id, true)
+	else:
+		rpc_id(1, "set_player_ready_request", id, true)
+		
+
+# Client request to server
+@rpc("any_peer", "reliable")
+func set_player_ready_request(player_id: int, is_ready: bool):
+	if multiplayer.is_server():
+		set_player_ready(player_id, is_ready)
+
+
+# Server function to set player ready state
+func set_player_ready(player_id: int, is_ready: bool):
+	
+	if not multiplayer.is_server():
+		return
+	
+	if multiplayer_node.players.has(player_id):
+		multiplayer_node.players[player_id]["ready"] = is_ready
+		rpc("update_players_replica", multiplayer_node.players)
+
+@rpc("authority", "call_local", "reliable")
+func update_players_replica(replica: Dictionary):
+	
+	multiplayer_node.players = replica.duplicate(true)
+
+
+# Check if all players are ready
+func every_map_loaded():
+	
+	while true:
+		var all_ready = true
+		
+		# Verifica si todos tienen ready=true
+		for player_data in multiplayer_node.players.values():
+			if not player_data.get("ready", false):
+				all_ready = false
+				break
+		
+		# Si todos están listos, sale del loop
+		if all_ready:
+			break
+			
+		await get_tree().process_frame
+	
+	print("TODOS ESTAN LISTOS: ", multiplayer.get_unique_id() ,multiplayer_node.players)
+
+
+

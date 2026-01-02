@@ -232,3 +232,22 @@ func _cleanup_and_return_to_menu():
 
 	get_tree().paused = true
 	get_tree().change_scene_to_file("res://Multijugador/Escena_Multijugador.tscn")
+
+
+
+########################
+# MENU DE CONFIGURACIONES
+###########################
+
+func _unhandled_input(event: InputEvent) -> void:
+	if game_state != GameState.IN_GAME:
+		return
+
+	if event.is_action_pressed("Options"):
+		$MenuPausa.visible = !$MenuPausa.visible
+		get_viewport().set_input_as_handled()
+		
+		
+func _on_leave_pressed():
+	game_state = GameState.MENU
+	_cleanup_and_return_to_menu()

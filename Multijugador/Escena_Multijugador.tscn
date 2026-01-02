@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://cml6n6mtqf30d"]
+[gd_scene load_steps=3 format=3 uid="uid://cml6n6mtqf30d"]
 
 [ext_resource type="Script" path="res://Multijugador/Multiplayer.gd" id="1_vassi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f4bkb"]
+bg_color = Color(0.12549, 0.12549, 0.12549, 0.890196)
 
 [node name="Multiplayer" type="Node"]
 script = ExtResource("1_vassi")
@@ -96,5 +99,114 @@ text = "127.0.0.1"
 placeholder_text = "Host IP"
 alignment = 1
 
+[node name="MenuPausa" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Control" type="Control" parent="MenuPausa"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MenuPausa/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 390.0
+offset_top = 250.0
+offset_right = -390.0
+offset_bottom = -250.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_f4bkb")
+
+[node name="MarginContainer" type="MarginContainer" parent="MenuPausa/Control/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuPausa/Control/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="MenuPausa/Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "OPCIONES"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="MenuPausa/Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Configs" type="Button" parent="MenuPausa/Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Configuraciones"
+
+[node name="Leave" type="Button" parent="MenuPausa/Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Salir de la partida*"
+
+[node name="Spacer2" type="Control" parent="MenuPausa/Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label2" type="Label" parent="MenuPausa/Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "*No es posible volver a la partida y todos los datos serán perdidos"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="TabMenu" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Control" type="Control" parent="TabMenu"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="TabMenu/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 148.0
+offset_top = 161.0
+offset_right = -148.0
+offset_bottom = -161.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabMenu/Control/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabMenu/Control/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="TEAM1" type="Label" parent="TabMenu/Control/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "TEAM1"
+horizontal_alignment = 1
+
+[node name="Control" type="Control" parent="TabMenu/Control/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TEAM2" type="Label" parent="TabMenu/Control/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "TEAM1"
+horizontal_alignment = 1
+
 [connection signal="pressed" from="UI/Net/Margins/Options/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="UI/Net/Margins/Options/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="MenuPausa/Control/PanelContainer/MarginContainer/VBoxContainer/Leave" to="." method="_on_leave_pressed"]

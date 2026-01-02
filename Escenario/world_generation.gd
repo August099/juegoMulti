@@ -5,6 +5,8 @@ extends Node2D
 
 @onready var tile_map = $TileMap
 
+@export var world_seed: int
+
 var temperature_noise: Noise
 var moisture_noise: Noise
 
@@ -36,13 +38,13 @@ func _ready():
 	temperature_noise = noise_temperature_text.noise
 	moisture_noise = noise_moisture_text.noise
 	
-	temperature_noise.seed = randi()
-	moisture_noise.seed = randi()
+	temperature_noise.seed = world_seed
+	moisture_noise.seed = world_seed + 1
 	
 	print(temperature_noise.seed)
 	print(moisture_noise.seed)
 	
-	generate_world()
+	call_deferred("_start_world_generation")
 
 func generate_world():
 	var grass_tiles = {
@@ -52,6 +54,8 @@ func generate_world():
 		"color_3": [],
 		"color_4": []
 	}
+	
+	var counter := 0
 	
 	for x in range(-width/2.0, width/2.0):
 		for y in range(-height/2.0, height/2.0):
@@ -70,12 +74,25 @@ func generate_world():
 			if between(temperature_noise_value, 0.35, 1) && between(moisture_noise_value, 0.75, 1):
 				grass_tiles.color_4.append(pos)
 	
+			# Si consume muchos recursos para generar lo frena un poco para evitar que
+			# el mutijugador se caiga
+			counter += 1
+			# Usar un valor mas alto hace que se cargue mas rapido el mapa pero haya
+			# mayor posibilidad de que se caiga el multi, y viceversa
+			if counter % 100 == 0:
+				#print("Almost crashed", counter)
+				await get_tree().process_frame
 	
 	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_0, terrain_grass_color_0, 0)
 	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_1, terrain_grass_color_1, 0)
 	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_2, terrain_grass_color_2, 0)
 	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_3, terrain_grass_color_3, 0)
 	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_4, terrain_grass_color_4, 0)
+	
+	
+	# Si ya se cargo todo pongo el player en ready
+	get_parent().player_ready()
+	print("MUNDO SPWANEADO")
 
 func between(val, min, max):
 	if val >= min && val < max:
@@ -93,3 +110,11 @@ func between(val, min, max):
 
 #print(noise_moi_val_arr.max())
 #print(noise_moi_val_arr.min())
+
+
+###############################
+# ESTO EVITA QUE EL MULTIJUGADOR SE CAIGA MIENTRAS CARGA EL MAPA
+###############################
+
+func _start_world_generation():
+	await generate_world()

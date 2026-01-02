@@ -2130,8 +2130,8 @@ texture = ExtResource("9_htwej")
 61:5/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 61:5/0/physics_layer_0/angular_velocity = 0.0
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_e2a2i"]
-polygon = PackedVector2Array(-32, -32, 32, -32, 18.5, 23.25, -18, 20.25)
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_6dvt5"]
+polygon = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0td7w"]
 texture = ExtResource("10_gvqgs")
@@ -2149,13 +2149,13 @@ texture_region_size = Vector2i(64, 64)
 0:0/animation_frame_7/duration = 1.0
 0:0/0 = 0
 0:0/0/texture_origin = Vector2i(0, 90)
-0:0/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_e2a2i")
+0:0/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_6dvt5")
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
 
 [resource]
 tile_size = Vector2i(64, 64)
-occlusion_layer_0/light_mask = 3
+occlusion_layer_0/light_mask = 1
 occlusion_layer_0/sdf_collision = true
 physics_layer_0/collision_layer = 1
 terrain_set_0/mode = 0
