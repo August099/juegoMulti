@@ -36,6 +36,9 @@ func _ready():
 		# Cambio el estado del juego
 		multiplayer_node.game_state = GameState.IN_GAME
 		
+		# Actualizo la pantalla de carga
+		actualizar_carga()
+		
 		await wait_clients()
 		
 		# Generacion del mundo
@@ -51,6 +54,7 @@ func _ready():
 		
 		# Actualizo datos en los clientes
 		multiplayer_node.game_state = GameState.IN_GAME
+		actualizar_carga()
 	
 	# Despues de que todos se unieron seteo la niebla de guerra para cada equipo
 	await wait_for_multiple_players()
@@ -204,6 +208,7 @@ func player_ready():
 	# Call server to update ready state
 	if multiplayer.is_server():
 		set_player_ready(id, true)
+		actualizar_carga()
 	else:
 		rpc_id(1, "set_player_ready_request", id, true)
 		
@@ -229,6 +234,7 @@ func set_player_ready(player_id: int, is_ready: bool):
 func update_players_replica(replica: Dictionary):
 	
 	multiplayer_node.players = replica.duplicate(true)
+	actualizar_carga()
 
 
 # Check if all players are ready
@@ -250,6 +256,24 @@ func every_map_loaded():
 		await get_tree().process_frame
 	
 	print("TODOS ESTAN LISTOS: ", multiplayer.get_unique_id() ,multiplayer_node.players)
-
+	
+	# Cuando todos estan listos saco la pantalla de carga y habilito el movimiento de las entidades
+	$PantallaCarga.visible = false
+	multiplayer_node.movement_unlocked = true
+	
+	
+func actualizar_carga():
+	
+	var listos = $PantallaCarga/Control/PanelContainer/MarginContainer/VBoxContainer/Listos
+	
+	var players_list = multiplayer_node.players
+	
+	var num_players = players_list.size()
+	var count: int = 0
+	for id in players_list:
+		if players_list[id].ready:
+			count += 1
+	
+	listos.text = "Jugadores listos: " + str(count) + "/" + str(num_players)
 
 

@@ -13,6 +13,7 @@ signal server_disconnected()
 enum GameState{MENU, LOBBY, IN_GAME}
 
 @export var game_state := GameState.MENU
+@export var movement_unlocked := false
 
 
 func _ready():
