@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://hbwd3kwel3rm"
-path="res://.godot/imported/Lancer_DownRight_Defence.png-8861a69696e5d0fe99731d441187846b.ctex"
+path="res://.godot/imported/Lancer_DownRight_Defence.png-de7d78704571824312f0b112f72919fd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Units/Black Units/Lancer/Lancer_DownRight_Defence.png"
-dest_files=["res://.godot/imported/Lancer_DownRight_Defence.png-8861a69696e5d0fe99731d441187846b.ctex"]
+source_file="res://assets/Units/Black Units/Lancer/Lancer_DownRight_Defence.png"
+dest_files=["res://.godot/imported/Lancer_DownRight_Defence.png-de7d78704571824312f0b112f72919fd.ctex"]
 
 [params]
 

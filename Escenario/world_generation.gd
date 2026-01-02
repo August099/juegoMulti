@@ -44,7 +44,9 @@ func _ready():
 	print(temperature_noise.seed)
 	print(moisture_noise.seed)
 	
-	call_deferred("_start_world_generation")
+	
+	generate_world()
+	#call_deferred("_start_world_generation")
 
 func generate_world():
 	source_arr.shuffle()
@@ -56,6 +58,8 @@ func generate_world():
 		"color_3": [],
 		"color_4": []
 	}
+	
+	var counter := 0
 	
 	for x in range(width):
 		for y in range(height):
@@ -80,6 +84,15 @@ func generate_world():
 				biomes[pos] = source_arr[4]
 			else:
 				tile_map.set_cell(water_layer, pos, water_atlas_id, Vector2i(0, 0))
+			
+			# Si consume muchos recursos para generar lo frena un poco para evitar que
+			# el mutijugador se caiga
+			counter += 1
+			# Usar un valor mas alto hace que se cargue mas rapido el mapa pero haya
+			# mayor posibilidad de que se caiga el multi, y viceversa
+			if counter % 100 == 0:
+				#print("Almost crashed", counter)
+				await get_tree().process_frame
 	
 	switch_biome_probability(source_arr[0], 1)
 	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_0, 0, 0)
@@ -102,6 +115,9 @@ func generate_world():
 	switch_biome_probability(source_arr[4], 0)
 	
 	set_decoration_world()
+	
+	# Si ya se cargo todo pongo el player en ready
+	get_parent().player_ready()
 
 func set_decoration_world():
 	for x in range(width):

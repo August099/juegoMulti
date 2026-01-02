@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cng7ildnbi3tw"
-path="res://.godot/imported/Pawn_Interact Hammer.png-6514acb5eb51ccc812086d7cf7d472c9.ctex"
+path="res://.godot/imported/Pawn_Interact Hammer.png-47270edba67d1bae796c83273ff43266.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Units/Purple Units/Pawn/Pawn_Interact Hammer.png"
-dest_files=["res://.godot/imported/Pawn_Interact Hammer.png-6514acb5eb51ccc812086d7cf7d472c9.ctex"]
+source_file="res://assets/Units/Purple Units/Pawn/Pawn_Interact Hammer.png"
+dest_files=["res://.godot/imported/Pawn_Interact Hammer.png-47270edba67d1bae796c83273ff43266.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://xkljf62lus3m"
-path="res://.godot/imported/Water Background color.png-c4c28cd637e42d774a47d6f6358a10de.ctex"
+path="res://.godot/imported/Water Background color.png-7182b3e5ddf7ba2423396706acc95a32.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Terrain/Tileset/Water Background color.png"
-dest_files=["res://.godot/imported/Water Background color.png-c4c28cd637e42d774a47d6f6358a10de.ctex"]
+source_file="res://assets/Terrain/Tileset/Water Background color.png"
+dest_files=["res://.godot/imported/Water Background color.png-7182b3e5ddf7ba2423396706acc95a32.ctex"]
 
 [params]
 
