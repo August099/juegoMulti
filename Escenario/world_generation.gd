@@ -19,18 +19,18 @@ var water_atlas_id = 5
 var water_foam_atlas_id = 6
 var tree_atlas_id = 9
 #terrain
-var terrain_grass_color_0 = 0
-var terrain_grass_color_1 = 1
-var terrain_grass_color_2 = 2
-var terrain_grass_color_3 = 3
-var terrain_grass_color_4 = 4
+var source_arr = [0, 1, 2, 3, 4]
 
 #world size
-var width: int = 200
-var height: int = 200
+var width: int = 300
+var height: int = 300
+
+var center_x = width / 2.0
+var center_y = height / 2.0
+var max_distance = sqrt(center_x * center_x + center_y * center_y)
 
 # la dificultad del bioma se aplica segun lo cercano que este a la estructura del boss
-var biome = {}
+var biomes = {}
 
 func _ready():
 	temperature_noise = noise_temperature_text.noise
@@ -45,6 +45,8 @@ func _ready():
 	generate_world()
 
 func generate_world():
+	source_arr.shuffle()
+	
 	var grass_tiles = {
 		"color_0": [],
 		"color_1": [],
@@ -53,34 +55,78 @@ func generate_world():
 		"color_4": []
 	}
 	
-	for x in range(-width/2.0, width/2.0):
-		for y in range(-height/2.0, height/2.0):
-			var pos = Vector2(x, y)
+	for x in range(width):
+		for y in range(height):
+			var pos = Vector2i(x, y)
 			var temperature_noise_value = (temperature_noise.get_noise_2d(x, y) + 1.0) * 0.5
 			var moisture_noise_value = (moisture_noise.get_noise_2d(x, y) + 1.0) * 0.5
 			
 			if (between(temperature_noise_value, 0, 0.35) && between(moisture_noise_value, 0, 0.55)) || (between(temperature_noise_value, 0.35, 0.6) && between(moisture_noise_value, 0.55, 0.75)):
 				grass_tiles.color_0.append(pos)
-			if between(temperature_noise_value, 0.35, 0.6) && between(moisture_noise_value, 0, 0.55):
+				biomes[pos] = source_arr[0]
+			elif between(temperature_noise_value, 0.35, 0.6) && between(moisture_noise_value, 0, 0.55):
 				grass_tiles.color_1.append(pos)
-			if between(temperature_noise_value, 0.6, 1) && between(moisture_noise_value, 0, 0.75):
+				biomes[pos] = source_arr[1]
+			elif between(temperature_noise_value, 0.6, 1) && between(moisture_noise_value, 0, 0.75):
 				grass_tiles.color_2.append(pos)
-			if between(temperature_noise_value, 0, 0.35) && between(moisture_noise_value, 0.55, 1):
+				biomes[pos] = source_arr[2]
+			elif between(temperature_noise_value, 0, 0.35) && between(moisture_noise_value, 0.55, 1):
 				grass_tiles.color_3.append(pos)
-			if between(temperature_noise_value, 0.35, 1) && between(moisture_noise_value, 0.75, 1):
+				biomes[pos] = source_arr[3]
+			elif between(temperature_noise_value, 0.35, 1) && between(moisture_noise_value, 0.75, 1):
 				grass_tiles.color_4.append(pos)
+				biomes[pos] = source_arr[4]
+			else:
+				tile_map.set_cell(water_layer, pos, water_atlas_id, Vector2i(0, 0))
 	
+	switch_biome_probability(source_arr[0], 1)
+	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_0, 0, 0)
+	switch_biome_probability(source_arr[0], 0)
 	
-	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_0, terrain_grass_color_0, 0)
-	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_1, terrain_grass_color_1, 0)
-	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_2, terrain_grass_color_2, 0)
-	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_3, terrain_grass_color_3, 0)
-	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_4, terrain_grass_color_4, 0)
+	switch_biome_probability(source_arr[1], 1)
+	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_1, 0, 0)
+	switch_biome_probability(source_arr[1], 0)
+	
+	switch_biome_probability(source_arr[2], 1)
+	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_2, 0, 0)
+	switch_biome_probability(source_arr[2], 0)
+	
+	switch_biome_probability(source_arr[3], 1)
+	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_3, 0, 0)
+	switch_biome_probability(source_arr[3], 0)
+	
+	switch_biome_probability(source_arr[4], 1)
+	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_4, 0, 0)
+	switch_biome_probability(source_arr[4], 0)
+	
+	set_decoration_world()
+
+func set_decoration_world():
+	for x in range(width):
+		for y in range(height):
+			var pos = Vector2i(x, y)
+			
+			var cell_data = tile_map.get_cell_tile_data(ground_layer, pos)
+			var atlas_coords = tile_map.get_cell_atlas_coords(ground_layer, pos)
+			
+			if cell_data:
+				if atlas_coords != Vector2i(1, 1) :
+					tile_map.set_cell(back_side_decoration_layer, pos, water_foam_atlas_id, Vector2i(0, 0))
+					tile_map.set_cell(water_layer, pos, water_atlas_id, Vector2i(0, 0))
 
 func between(val, min, max):
-	if val >= min && val < max:
+	if val > min && val <= max:
 		return true
 	return false
+
+func switch_biome_probability(source_id, probability):
+	var source = tile_map.tile_set.get_source(source_id)
+	
+	for x in range(3):
+		for y in range(3):
+			var tile_data = source.get_tile_data(Vector2i(x, y), 0)
+			
+			tile_data.probability = probability
 
 #var noise_temp_val_arr = []
 #var noise_moi_val_arr = []
