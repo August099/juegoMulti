@@ -97,6 +97,12 @@ size_flags_horizontal = 8
 texture = ExtResource("3_uh1bt")
 expand_mode = 2
 
+[node name="Label2" type="Label" parent="Team2/PlayerList"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.815686, 1, 1)
+theme_override_font_sizes/font_size = 60
+text = "Player"
+
 [node name="Start" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 7

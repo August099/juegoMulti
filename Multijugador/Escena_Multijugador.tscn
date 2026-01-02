@@ -188,24 +188,56 @@ offset_bottom = -161.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabMenu/Control/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="TabMenu/Control/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabMenu/Control/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabMenu/Control/PanelContainer/HBoxContainer"]
+[node name="Equipo1" type="VBoxContainer" parent="TabMenu/Control/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
 
-[node name="TEAM1" type="Label" parent="TabMenu/Control/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="TabMenu/Control/PanelContainer/MarginContainer/HBoxContainer/Equipo1"]
 layout_mode = 2
-text = "TEAM1"
+theme_override_font_sizes/font_size = 50
+text = "TEAM 1"
 horizontal_alignment = 1
 
-[node name="Control" type="Control" parent="TabMenu/Control/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="TabMenu/Control/PanelContainer/MarginContainer/HBoxContainer/Equipo1"]
 layout_mode = 2
 
-[node name="TEAM2" type="Label" parent="TabMenu/Control/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="TabMenu/Control/PanelContainer/MarginContainer/HBoxContainer/Equipo1"]
 layout_mode = 2
-text = "TEAM1"
+size_flags_horizontal = 3
+columns = 2
+
+[node name="Control" type="Control" parent="TabMenu/Control/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Equipo2" type="VBoxContainer" parent="TabMenu/Control/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="TabMenu/Control/PanelContainer/MarginContainer/HBoxContainer/Equipo2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "TEAM 2"
 horizontal_alignment = 1
+
+[node name="Control" type="Control" parent="TabMenu/Control/PanelContainer/MarginContainer/HBoxContainer/Equipo2"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="TabMenu/Control/PanelContainer/MarginContainer/HBoxContainer/Equipo2"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 2
 
 [connection signal="pressed" from="UI/Net/Margins/Options/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="UI/Net/Margins/Options/Join" to="." method="_on_join_pressed"]

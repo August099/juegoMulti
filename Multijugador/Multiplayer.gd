@@ -212,6 +212,9 @@ func receive_game_state_from_server(state: int):
 func _player_disconnected(peer_id: int):
 	print("Peer disconnected:", peer_id)
 
+	if not is_instance_valid(lobbyScene):
+		return
+
 	if lobbyScene:
 		lobbyScene.remove_player(peer_id)
 
@@ -222,6 +225,15 @@ func _server_disconnected():
 	_cleanup_and_return_to_menu()
 	
 func _cleanup_and_return_to_menu():
+	
+	if not is_instance_valid(lobbyScene):
+		if multiplayer.multiplayer_peer:
+			multiplayer.multiplayer_peer.close()
+
+		get_tree().paused = true
+		get_tree().change_scene_to_file("res://Multijugador/Escena_Multijugador.tscn")
+		return
+	
 	# Clear lobby
 	if lobbyScene:
 		lobbyScene.queue_free()
@@ -248,6 +260,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		$MenuPausa.visible = !$MenuPausa.visible
 		get_viewport().set_input_as_handled()
 		
+	if event.is_action_pressed("Tab"):
+		$TabMenu.visible = true
+		get_viewport().set_input_as_handled()
+	elif event.is_action_released("Tab"):
+		$TabMenu.visible = false
+		get_viewport().set_input_as_handled()
 		
 func _on_leave_pressed():
 	game_state = GameState.MENU

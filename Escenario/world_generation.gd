@@ -92,7 +92,6 @@ func generate_world():
 	
 	# Si ya se cargo todo pongo el player en ready
 	get_parent().player_ready()
-	print("MUNDO SPWANEADO")
 
 func between(val, min, max):
 	if val >= min && val < max:

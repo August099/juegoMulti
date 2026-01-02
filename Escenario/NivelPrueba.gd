@@ -10,10 +10,12 @@ enum GameState{MENU, LOBBY, IN_GAME}
 var world_seed
 var clients_ready_for_game = {}
 
+var first_tab = true
+
 func _ready():
 	# Lockeo todo hasta que los jugadores tengan todo cargado
-	
-	
+	$PantallaCarga.visible = false
+	multiplayer_node.movement_unlocked = true
 	# Cambio todos los estados de ready por no, para usarlo en el contexto
 	# de carga de mapa y no de lobby
 	for id in players:
@@ -45,8 +47,8 @@ func _ready():
 		world_seed = randi()
 		
 		# Envio a los clientes a que generen el mundo y despues empieza el server a generarlo
-		rpc("receive_world_seed", world_seed, multiplayer_node.players)
-		_spawn_world()
+		#rpc("receive_world_seed", world_seed, multiplayer_node.players)
+		#_spawn_world()
 		
 	else :
 		# El cliente ya esta listo para recibir informacion
@@ -59,8 +61,12 @@ func _ready():
 	# Despues de que todos se unieron seteo la niebla de guerra para cada equipo
 	await wait_for_multiple_players()
 	set_fow()
+	# Empiezo a medir el ping
+	if multiplayer.is_server():
+		update_ping_loop()
 	
 	await every_map_loaded()
+	
 	
 	
 	
@@ -196,8 +202,9 @@ func wait_clients():
 		await get_tree().process_frame
 
 
-
-################## Estas funciones son para ver si los jugadores ya generaron el mapa
+#########################
+###### Estas funciones son para ver si los jugadores ya generaron el mapa
+###########################
 
 func player_ready():
 	if not multiplayer.has_multiplayer_peer():
@@ -233,8 +240,16 @@ func set_player_ready(player_id: int, is_ready: bool):
 @rpc("authority", "call_local", "reliable")
 func update_players_replica(replica: Dictionary):
 	
-	multiplayer_node.players = replica.duplicate(true)
-	actualizar_carga()
+	if !multiplayer_node.movement_unlocked:
+		multiplayer_node.players = replica.duplicate(true)
+		actualizar_carga()
+		return
+	
+	# Solo actualizo el tab si la partida ya esta cargada y si el menu es visible
+	if (multiplayer_node.movement_unlocked and multiplayer_node.get_node("TabMenu").visible) or first_tab:
+		multiplayer_node.players = replica.duplicate(true)
+		update_tab()
+		return
 
 
 # Check if all players are ready
@@ -277,3 +292,98 @@ func actualizar_carga():
 	listos.text = "Jugadores listos: " + str(count) + "/" + str(num_players)
 
 
+################################
+# MEDIR PING
+###############################
+
+func update_ping_loop() -> void:
+	
+	if multiplayer_node.game_state != GameState.IN_GAME:
+		return
+	
+	while true:
+		await get_tree().create_timer(2.0).timeout
+		for id in players.keys():
+			if id == 1:
+				multiplayer_node.players[id]["ping"] = 1
+			else:
+				var ping = get_player_ping(id)
+				multiplayer_node.players[id]["ping"] = ping
+		
+		rpc("update_players_replica", multiplayer_node.players)
+		
+		
+func get_player_ping(peer_id: int) -> int:
+	var peer := multiplayer.multiplayer_peer
+	
+	if peer.get_peer(peer_id) == null:
+		return -1
+	
+	if (peer is ENetMultiplayerPeer):
+		var packet_peer = peer.get_peer(peer_id)
+		return packet_peer.get_statistic(
+			ENetPacketPeer.PEER_LAST_ROUND_TRIP_TIME
+		)
+	return -1
+
+
+
+func update_tab():
+	
+	if !is_inside_tree():
+		return
+	
+	var tab1 = multiplayer_node.get_node("TabMenu/Control/PanelContainer/MarginContainer/HBoxContainer/Equipo1/GridContainer")
+	var tab2 = multiplayer_node.get_node("TabMenu/Control/PanelContainer/MarginContainer/HBoxContainer/Equipo2/GridContainer")
+	
+	if first_tab:
+		# Limpio el tab
+		for label in tab1.get_children():
+			tab1.remove_child(label)
+			label.free()
+		for label in tab2.get_children():
+			tab2.remove_child(label)
+			label.free()
+		
+		first_tab = false
+	
+	# Si el tab ya existe, en vez de borrar todo y volver a crearlo, soloa ctualizo el ping
+	if tab1.get_child_count() + tab2.get_child_count() == multiplayer_node.players.size()*2:
+		for player_id in multiplayer_node.players:
+			if tab1.get_node(str(player_id)) != null:
+				tab1.get_node(str(player_id)).text = str(multiplayer_node.players[player_id].ping) + "ms"
+			
+			if tab2.get_node(str(player_id)) != null:
+				tab2.get_node(str(player_id)).text = str(multiplayer_node.players[player_id].ping) + "ms"
+				
+		return
+
+	for player_id in multiplayer_node.players:
+		var p = multiplayer_node.players[player_id]
+		
+		# Agrego el jugador al tab
+		var tablabel := Label.new()
+		
+		tablabel.text = p.name
+		tablabel.add_theme_font_size_override("font_size", 40)
+		tablabel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		if player_id == multiplayer.get_unique_id():
+			tablabel.add_theme_color_override("font_color", Color("00d0ff"))
+		
+		# Agrego tambien el ping
+		var pinglabel := Label.new()
+		
+		pinglabel.text = str(p.ping) + "ms"
+		pinglabel.add_theme_font_size_override("font_size", 40)
+		if player_id == multiplayer.get_unique_id():
+			pinglabel.add_theme_color_override("font_color", Color("00d0ff"))
+			
+		# Le agrego nombre al label del ping para cambiarlo y no tener que recrearlo
+		pinglabel.name = str(player_id)
+		
+		if p.team == 1:
+			tab1.add_child(tablabel)
+			tab1.add_child(pinglabel)
+		else:
+			tab2.add_child(tablabel)
+			tab2.add_child(pinglabel)
