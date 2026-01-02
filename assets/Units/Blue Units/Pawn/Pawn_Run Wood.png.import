@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ccfgfsukbln6d"
-path="res://.godot/imported/Pawn_Run Wood.png-770f6c4b320cd217a6439f1f104e7e3c.ctex"
+path="res://.godot/imported/Pawn_Run Wood.png-1f62b32bf9c1d14aa7efb2583d394a2e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Units/Blue Units/Pawn/Pawn_Run Wood.png"
-dest_files=["res://.godot/imported/Pawn_Run Wood.png-770f6c4b320cd217a6439f1f104e7e3c.ctex"]
+source_file="res://Assets/Units/Blue Units/Pawn/Pawn_Run Wood.png"
+dest_files=["res://.godot/imported/Pawn_Run Wood.png-1f62b32bf9c1d14aa7efb2583d394a2e.ctex"]
 
 [params]
 

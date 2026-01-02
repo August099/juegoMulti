@@ -1,5 +1,7 @@
 extends Control
 
+@onready var multiplayer_node = get_node("/root/Multiplayer")
+
 # This dictionary is automatically synced
 @export var players := {}  # peer_id -> { name, team, ready }
 
@@ -42,7 +44,8 @@ func add_player(peer_id: int, player_name: String):
 	players[peer_id] = {
 		"name": player_name,
 		"team": assign_team(),
-		"ready": false
+		"ready": false,
+		"ping": 999
 	}
 	
 	# If we're the server, update replica and notify clients
@@ -163,19 +166,29 @@ func update_ui():
 		return
 
 	for c in $Team1/PlayerList.get_children():
-		c.queue_free()
+		$Team1/PlayerList.remove_child(c)
+		c.free()
 	for c in $Team2/PlayerList.get_children():
-		c.queue_free()
+		$Team2/PlayerList.remove_child(c)
+		c.free()
 
-	for p in players.values():
+	# Limpio el tab
+	for label in get_tree().get_nodes_in_group("TabEntry"):
+		label.queue_free()
+
+	for player_id in players:
+		var p = players[player_id]
+		
 		# Cuando entra un jugador agrego su nombre en la lsita		
 		var label := Label.new()
 		label.text = p.name
+		label.add_theme_font_size_override("font_size", 60)
 		
-		label.add_theme_font_override("font", load("res://Assets/Font/Alkatra-VariableFont_wght.ttf"))
-		
-		label.add_theme_font_size_override("font_size", 50)
 		label.custom_minimum_size = Vector2(450, 0)
+		
+		# Si es el servidor cambio el color del nombre
+		if player_id == 1:
+			label.add_theme_color_override("font_color", Color("d0d624"))
 		
 		# Agrego ademas un icono de ready o no
 		var readyState := TextureRect.new()
@@ -196,9 +209,15 @@ func update_ui():
 		if p.team == 1:
 			$Team1/PlayerList.add_child(label)
 			$Team1/PlayerList.add_child(readyState)
+			
 		else:
 			$Team2/PlayerList.add_child(label)
 			$Team2/PlayerList.add_child(readyState)
+			
+			
+	
+	# Update players dict in multiplayer node
+	multiplayer_node.players = players
 	
 	# Show/hide start button based on authority
 	$Start.visible = multiplayer.is_server()
@@ -230,12 +249,7 @@ func remove_player(peer_id: int):
 
 
 func _on_leave_pressed():
-	if multiplayer.is_server():
-		# Host leaves → everyone disconnects
-		multiplayer.multiplayer_peer.close()
-	else:
-		# Client leaves → disconnect
-		multiplayer.multiplayer_peer.close()
+	multiplayer.multiplayer_peer.close()
 	
 
 

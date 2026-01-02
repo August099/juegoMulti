@@ -13,6 +13,7 @@ signal server_disconnected()
 enum GameState{MENU, LOBBY, IN_GAME}
 
 @export var game_state := GameState.MENU
+@export var movement_unlocked := false
 
 
 func _ready():
@@ -63,12 +64,11 @@ func _on_host_pressed():
 	
 	game_state = GameState.LOBBY
 	go_lobby()
-	print("server gamestate", game_state)	
 
 func _on_join_pressed():
 	
 	# Start as client
-	var adress : String = $UI/Net/Options/IP.text
+	var adress : String = $UI/Net/Margins/Options/IP.text
 	
 	if adress == "":
 		OS.alert("Need a remote to connect to.")
@@ -92,6 +92,7 @@ func _on_join_pressed():
 
 var lobbyScene: Node = null
 
+@export var players := {} 
 
 func go_lobby():
 	
@@ -113,7 +114,7 @@ func go_lobby():
 	lobbyScene = $Lobby.get_child(0) if $Lobby.get_child_count() > 0 else null
 	
 	if lobbyScene:
-		send_player_name($UI/Net/Options/PlayerName.text)
+		send_player_name($UI/Net/Margins/Options/PlayerName.text)
 	
 	
 
@@ -147,8 +148,6 @@ func _spawn_lobby_callback(_data: Array):
 	$Lobby.add_child(lobby_instance, true)
 	return lobby_instance
 
-
-
 # Guardo el nombre del jugador
 func send_player_name(playerName: String):
 	if multiplayer.is_server():
@@ -175,15 +174,22 @@ func start_game():
 	change_level("res://Escenario/NivelPrueba.tscn")
 
 func change_level(scene: String):
-	lobbyScene.hide()
+	rpc("hide_lobby_for_game_start")
+	
+	# Clean up lobby on server
+	if lobbyScene:
+		lobbyScene.hide()
 	
 	var level := $Level
 	for c in level.get_children():
 		c.queue_free()
 		
 	level.add_child(load(scene).instantiate())
-	
-	print("level changed")
+
+@rpc("authority", "call_local", "reliable")
+func hide_lobby_for_game_start():
+	if lobbyScene:
+		lobbyScene.hide()
 
 # ======================
 # DESCONEXION
@@ -195,7 +201,6 @@ func _player_connected(peer_id: int):
 @rpc("authority", "reliable")
 func receive_game_state_from_server(state: int):
 	game_state = state
-	print("Signal game state",game_state)
 	
 	# Check game state before joining lobby
 	if game_state == GameState.LOBBY:
@@ -207,6 +212,9 @@ func receive_game_state_from_server(state: int):
 func _player_disconnected(peer_id: int):
 	print("Peer disconnected:", peer_id)
 
+	if not is_instance_valid(lobbyScene):
+		return
+
 	if lobbyScene:
 		lobbyScene.remove_player(peer_id)
 
@@ -217,6 +225,15 @@ func _server_disconnected():
 	_cleanup_and_return_to_menu()
 	
 func _cleanup_and_return_to_menu():
+	
+	if not is_instance_valid(lobbyScene):
+		if multiplayer.multiplayer_peer:
+			multiplayer.multiplayer_peer.close()
+
+		get_tree().paused = true
+		get_tree().change_scene_to_file("res://Multijugador/Escena_Multijugador.tscn")
+		return
+	
 	# Clear lobby
 	if lobbyScene:
 		lobbyScene.queue_free()
@@ -228,3 +245,28 @@ func _cleanup_and_return_to_menu():
 
 	get_tree().paused = true
 	get_tree().change_scene_to_file("res://Multijugador/Escena_Multijugador.tscn")
+
+
+
+########################
+# MENU DE CONFIGURACIONES
+###########################
+
+func _unhandled_input(event: InputEvent) -> void:
+	if game_state != GameState.IN_GAME:
+		return
+
+	if event.is_action_pressed("Options"):
+		$MenuPausa.visible = !$MenuPausa.visible
+		get_viewport().set_input_as_handled()
+		
+	if event.is_action_pressed("Tab"):
+		$TabMenu.visible = true
+		get_viewport().set_input_as_handled()
+	elif event.is_action_released("Tab"):
+		$TabMenu.visible = false
+		get_viewport().set_input_as_handled()
+		
+func _on_leave_pressed():
+	game_state = GameState.MENU
+	_cleanup_and_return_to_menu()

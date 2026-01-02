@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c63kgeaf0esv2"
-path="res://.godot/imported/Stump 4.png-f724d40a53cab05eb4c4791341803bfc.ctex"
+path="res://.godot/imported/Stump 4.png-fbae5225bd17ebdd6674750aa450a770.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Terrain/Resources/Wood/Trees/Stump 4.png"
-dest_files=["res://.godot/imported/Stump 4.png-f724d40a53cab05eb4c4791341803bfc.ctex"]
+source_file="res://Assets/Terrain/Resources/Wood/Trees/Stump 4.png"
+dest_files=["res://.godot/imported/Stump 4.png-fbae5225bd17ebdd6674750aa450a770.ctex"]
 
 [params]
 

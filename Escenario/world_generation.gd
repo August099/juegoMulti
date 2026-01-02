@@ -5,6 +5,8 @@ extends Node2D
 
 @onready var tile_map = $TileMap
 
+@export var world_seed: int
+
 var temperature_noise: Noise
 var moisture_noise: Noise
 
@@ -36,13 +38,13 @@ func _ready():
 	temperature_noise = noise_temperature_text.noise
 	moisture_noise = noise_moisture_text.noise
 	
-	temperature_noise.seed = randi()
-	moisture_noise.seed = randi()
+	temperature_noise.seed = world_seed
+	moisture_noise.seed = world_seed + 1
 	
 	print(temperature_noise.seed)
 	print(moisture_noise.seed)
 	
-	generate_world()
+	call_deferred("_start_world_generation")
 
 func generate_world():
 	source_arr.shuffle()
@@ -139,3 +141,11 @@ func switch_biome_probability(source_id, probability):
 
 #print(noise_moi_val_arr.max())
 #print(noise_moi_val_arr.min())
+
+
+###############################
+# ESTO EVITA QUE EL MULTIJUGADOR SE CAIGA MIENTRAS CARGA EL MAPA
+###############################
+
+func _start_world_generation():
+	await generate_world()

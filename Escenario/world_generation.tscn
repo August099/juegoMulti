@@ -1,6 +1,6 @@
 [gd_scene load_steps=27 format=3 uid="uid://c8kkijph46fur"]
 
-[ext_resource type="Texture2D" uid="uid://cb5gfumf8afjt" path="res://assets/Terrain/Tileset/Tilemap_color1.png" id="1_o8roq"]
+[ext_resource type="Texture2D" uid="uid://cb5gfumf8afjt" path="res://Assets/Terrain/Tileset/Tilemap_color1.png" id="1_o8roq"]
 [ext_resource type="Script" path="res://Escenario/world_generation.gd" id="1_su5g7"]
 [ext_resource type="Texture2D" uid="uid://bfsrg8pw1pn4m" path="res://assets/Terrain/Tileset/Tilemap_color2.png" id="2_a0qb2"]
 [ext_resource type="Texture2D" uid="uid://dfafei44berlq" path="res://assets/noise/world_generation_temperature_2.tres" id="2_vp17p"]
@@ -170,18 +170,13 @@ texture_region_size = Vector2i(64, 64)
 6:0/0 = 0
 6:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 6:0/0/physics_layer_0/angular_velocity = 0.0
+6:1/next_alternative_id = 2
 6:1/0 = 0
 6:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 6:1/0/physics_layer_0/angular_velocity = 0.0
 6:2/0 = 0
 6:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 6:2/0/physics_layer_0/angular_velocity = 0.0
-6:3/0 = 0
-6:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-6:3/0/physics_layer_0/angular_velocity = 0.0
-6:4/0 = 0
-6:4/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-6:4/0/physics_layer_0/angular_velocity = 0.0
 6:5/0 = 0
 6:5/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 6:5/0/physics_layer_0/angular_velocity = 0.0
@@ -229,6 +224,12 @@ texture_region_size = Vector2i(64, 64)
 3:4/0 = 0
 3:4/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 3:4/0/physics_layer_0/angular_velocity = 0.0
+6:4/0 = 0
+6:4/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+6:4/0/physics_layer_0/angular_velocity = 0.0
+6:3/0 = 0
+6:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+6:3/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nc8r5"]
 texture = ExtResource("2_a0qb2")
@@ -2196,7 +2197,3 @@ layer_4/y_sort_enabled = false
 layer_4/y_sort_origin = 0
 layer_4/z_index = 4
 layer_4/tile_data = PackedInt32Array()
-
-[node name="player" parent="." instance=ExtResource("12_lk7rx")]
-z_index = 6
-position = Vector2(724, 451)

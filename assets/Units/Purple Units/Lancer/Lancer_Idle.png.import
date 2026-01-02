@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://daciyo1dln784"
-path="res://.godot/imported/Lancer_Idle.png-0bc03af6088831a7d43a4f8e845ece8c.ctex"
+path="res://.godot/imported/Lancer_Idle.png-cd0cf1d10f58fb6148281cb0088f7ca5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Units/Purple Units/Lancer/Lancer_Idle.png"
-dest_files=["res://.godot/imported/Lancer_Idle.png-0bc03af6088831a7d43a4f8e845ece8c.ctex"]
+source_file="res://Assets/Units/Purple Units/Lancer/Lancer_Idle.png"
+dest_files=["res://.godot/imported/Lancer_Idle.png-cd0cf1d10f58fb6148281cb0088f7ca5.ctex"]
 
 [params]
 

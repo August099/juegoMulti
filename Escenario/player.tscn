@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://o4svm0t826cc"]
+[gd_scene load_steps=12 format=3 uid="uid://o4svm0t826cc"]
 
 [ext_resource type="Texture2D" uid="uid://c0dshid8bvmgb" path="res://icon.svg" id="1_kui6b"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="2_the84"]
@@ -6,6 +6,8 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cn6yd"]
 size = Vector2(124, 122)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ecv0n"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_f60nh"]
 properties/0/path = NodePath(".:player")
@@ -23,13 +25,45 @@ properties/0/spawn = true
 properties/0/sync = true
 properties/0/watch = false
 
+[sub_resource type="Gradient" id="Gradient_re428"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.525862, 0.689655, 0.767241)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.74902, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gd8pr"]
+gradient = SubResource("Gradient_re428")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.9, 0.9)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3os44"]
+bg_color = Color(0.584314, 0.0117647, 0.0117647, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ulfh"]
+bg_color = Color(0.133333, 0.8, 0.0705882, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
 [node name="player" type="CharacterBody2D"]
+z_index = 5
+collision_mask = 2
 script = ExtResource("2_the84")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_cn6yd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_ecv0n")
 texture = ExtResource("1_kui6b")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -40,3 +74,55 @@ replication_config = SubResource("SceneReplicationConfig_f60nh")
 [node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_5twf3")
 script = ExtResource("3_xi4e7")
+
+[node name="Vision" type="PointLight2D" parent="."]
+position = Vector2(4, 0)
+energy = 0.8
+blend_mode = 2
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_gd8pr")
+texture_scale = 11.26
+
+[node name="Stats" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HealthBar" type="ProgressBar" parent="Stats"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -102.0
+offset_top = -101.0
+offset_right = 102.0
+offset_bottom = -79.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_3os44")
+theme_override_styles/fill = SubResource("StyleBoxFlat_0ulfh")
+value = 100.0
+show_percentage = false
+
+[node name="TextureRect" type="TextureRect" parent="Stats"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlayerName" type="Label" parent="Stats"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -44.0
+offset_top = -138.0
+offset_right = 44.0
+offset_bottom = -97.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 50
+text = "Player"
+horizontal_alignment = 1

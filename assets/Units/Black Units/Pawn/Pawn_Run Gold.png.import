@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://btqt7u5pex3c8"
-path="res://.godot/imported/Pawn_Run Gold.png-5441ce9f4ae971f521898f53877c4542.ctex"
+path="res://.godot/imported/Pawn_Run Gold.png-05de143c189671b7df8a30415c7705b6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Units/Black Units/Pawn/Pawn_Run Gold.png"
-dest_files=["res://.godot/imported/Pawn_Run Gold.png-5441ce9f4ae971f521898f53877c4542.ctex"]
+source_file="res://Assets/Units/Black Units/Pawn/Pawn_Run Gold.png"
+dest_files=["res://.godot/imported/Pawn_Run Gold.png-05de143c189671b7df8a30415c7705b6.ctex"]
 
 [params]
 

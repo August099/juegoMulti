@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bf0wcou8ada6n"
-path="res://.godot/imported/Archery.png-51a914d40471f370e41ad4d424992923.ctex"
+path="res://.godot/imported/Archery.png-89c2e84cf389411bb644be3cd26fa016.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Buildings/Yellow Buildings/Archery.png"
-dest_files=["res://.godot/imported/Archery.png-51a914d40471f370e41ad4d424992923.ctex"]
+source_file="res://Assets/Buildings/Yellow Buildings/Archery.png"
+dest_files=["res://.godot/imported/Archery.png-89c2e84cf389411bb644be3cd26fa016.ctex"]
 
 [params]
 

@@ -7,6 +7,9 @@ var friction = 0.2
 
 @onready var camera = $Camera2D
 
+# Get properties from multiplayer node
+@onready var multiplayer_node = get_node("/root/Multiplayer")
+
 func _ready():
 	# Set the camera as current if we are this player.
 	if player == multiplayer.get_unique_id():
@@ -24,6 +27,9 @@ func _ready():
 
 func _physics_process(delta):
 	if !is_multiplayer_authority():
+		return
+		
+	if not multiplayer_node.movement_unlocked:
 		return
 
 	var dir : Vector2 = input.move_direction
