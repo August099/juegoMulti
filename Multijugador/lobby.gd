@@ -165,11 +165,11 @@ func update_ui():
 	if !is_inside_tree():
 		return
 
-	for c in $Team1/PlayerList.get_children():
-		$Team1/PlayerList.remove_child(c)
+	for c in $HBoxContainer/Team1/MarginContainer/PlayerList.get_children():
+		$HBoxContainer/Team1/MarginContainer/PlayerList.remove_child(c)
 		c.free()
-	for c in $Team2/PlayerList.get_children():
-		$Team2/PlayerList.remove_child(c)
+	for c in $HBoxContainer/Team2/MarginContainer/PlayerList.get_children():
+		$HBoxContainer/Team2/MarginContainer/PlayerList.remove_child(c)
 		c.free()
 
 	# Limpio el tab
@@ -184,7 +184,7 @@ func update_ui():
 		label.text = p.name
 		label.add_theme_font_size_override("font_size", 60)
 		
-		label.custom_minimum_size = Vector2(450, 0)
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		
 		# Si es el servidor cambio el color del nombre
 		if player_id == 1:
@@ -207,12 +207,12 @@ func update_ui():
 		readyState.size_flags_vertical = Control.SIZE_FILL
 		
 		if p.team == 1:
-			$Team1/PlayerList.add_child(label)
-			$Team1/PlayerList.add_child(readyState)
+			$HBoxContainer/Team1/MarginContainer/PlayerList.add_child(label)
+			$HBoxContainer/Team1/MarginContainer/PlayerList.add_child(readyState)
 			
 		else:
-			$Team2/PlayerList.add_child(label)
-			$Team2/PlayerList.add_child(readyState)
+			$HBoxContainer/Team2/MarginContainer/PlayerList.add_child(label)
+			$HBoxContainer/Team2/MarginContainer/PlayerList.add_child(readyState)
 			
 			
 	

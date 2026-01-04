@@ -1,7 +1,7 @@
 # multiplayer.gd
 extends Node
 
-const PORT = 4433
+const PORT = 4436
 
 signal gameStateChanged(gamestate)
 
