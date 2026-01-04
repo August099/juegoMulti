@@ -45,11 +45,13 @@ func _ready():
 	print(moisture_noise.seed)
 	
 	
-	generate_world()
-	#call_deferred("_start_world_generation")
+	#generate_world()
+	call_deferred("_start_world_generation")
 
 func generate_world():
-	source_arr.shuffle()
+	
+	# Esto hace que los mundos tengan diferentes colores para el server y los clientes
+	#source_arr.shuffle()
 	
 	var grass_tiles = {
 		"color_0": [],
@@ -67,6 +69,7 @@ func generate_world():
 			var temperature_noise_value = (temperature_noise.get_noise_2d(x, y) + 1.0) * 0.5
 			var moisture_noise_value = (moisture_noise.get_noise_2d(x, y) + 1.0) * 0.5
 			
+			
 			if (between(temperature_noise_value, 0, 0.35) && between(moisture_noise_value, 0, 0.55)) || (between(temperature_noise_value, 0.35, 0.6) && between(moisture_noise_value, 0.55, 0.75)):
 				grass_tiles.color_0.append(pos)
 				biomes[pos] = source_arr[0]
@@ -83,6 +86,7 @@ func generate_world():
 				grass_tiles.color_4.append(pos)
 				biomes[pos] = source_arr[4]
 			else:
+				grass_tiles.water.append(pos)
 				tile_map.set_cell(water_layer, pos, water_atlas_id, Vector2i(0, 0))
 			
 			# Si consume muchos recursos para generar lo frena un poco para evitar que

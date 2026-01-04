@@ -25,79 +25,93 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -58.0
-offset_top = 10.0
-offset_right = -6.0
-offset_bottom = 36.0
+offset_left = -78.0
+offset_top = 30.0
+offset_right = 3.0
+offset_bottom = 76.0
 grow_horizontal = 2
 scale = Vector2(2, 2)
 text = "LOBBY"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Team1" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(450, 350)
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 20.0
-offset_top = -175.0
-offset_right = 530.0
-offset_bottom = 175.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 42.0
+offset_top = 219.0
+offset_right = -42.0
+offset_bottom = -219.0
+grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PlayerList" type="GridContainer" parent="Team1"]
+[node name="Team1" type="PanelContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(450, 350)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/Team1"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="PlayerList" type="GridContainer" parent="HBoxContainer/Team1/MarginContainer"]
 layout_mode = 2
 columns = 2
 
-[node name="Label" type="Label" parent="Team1/PlayerList"]
+[node name="Label" type="Label" parent="HBoxContainer/Team1/MarginContainer/PlayerList"]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_2mab7")
 theme_override_font_sizes/font_size = 50
 text = "asdasdasd"
 
-[node name="TextureRect" type="TextureRect" parent="Team1/PlayerList"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/Team1/MarginContainer/PlayerList"]
 modulate = Color(0.980392, 0.184314, 0.184314, 1)
 layout_mode = 2
 size_flags_horizontal = 8
 expand_mode = 2
 
-[node name="Team2" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(450, 350)
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -530.0
-offset_top = -175.0
-offset_right = -20.0
-offset_bottom = 175.0
-grow_horizontal = 0
-grow_vertical = 2
+[node name="Control" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="PlayerList" type="GridContainer" parent="Team2"]
+[node name="Team2" type="PanelContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(450, 350)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/Team2"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="PlayerList" type="GridContainer" parent="HBoxContainer/Team2/MarginContainer"]
 layout_mode = 2
 columns = 2
 
-[node name="Label" type="Label" parent="Team2/PlayerList"]
+[node name="Label" type="Label" parent="HBoxContainer/Team2/MarginContainer/PlayerList"]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("2_2mab7")
 theme_override_font_sizes/font_size = 50
 text = "asdasdasd"
 
-[node name="TextureRect" type="TextureRect" parent="Team2/PlayerList"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/Team2/MarginContainer/PlayerList"]
 modulate = Color(0.164706, 0.886275, 0.172549, 1)
 layout_mode = 2
 size_flags_horizontal = 8
 texture = ExtResource("3_uh1bt")
 expand_mode = 2
 
-[node name="Label2" type="Label" parent="Team2/PlayerList"]
+[node name="Label2" type="Label" parent="HBoxContainer/Team2/MarginContainer/PlayerList"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.815686, 1, 1)
 theme_override_font_sizes/font_size = 60
@@ -110,21 +124,21 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -92.0
-offset_top = -98.0
-offset_right = 4.0
-offset_bottom = -67.0
+offset_left = -107.0
+offset_top = -117.0
+offset_right = 107.0
+offset_bottom = -51.0
 grow_horizontal = 2
 grow_vertical = 0
-scale = Vector2(2, 2)
+theme_override_font_sizes/font_size = 50
 text = "Start Game"
 
 [node name="Leave" type="Button" parent="."]
 layout_mode = 2
-offset_left = 32.0
+offset_left = 46.0
 offset_top = 37.0
-offset_right = 85.0
-offset_bottom = 68.0
+offset_right = 106.0
+offset_bottom = 73.0
 scale = Vector2(2, 2)
 theme = ExtResource("4_wtdr2")
 text = "Leave"
@@ -136,10 +150,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -177.0
-offset_top = -107.0
+offset_left = -182.0
+offset_top = -122.0
 offset_right = -121.0
-offset_bottom = -67.0
+offset_bottom = -82.0
 grow_horizontal = 0
 grow_vertical = 0
 scale = Vector2(2, 2)
@@ -150,10 +164,10 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 52.0
-offset_top = -103.0
-offset_right = 165.0
-offset_bottom = -72.0
+offset_left = 39.0
+offset_top = -119.0
+offset_right = 164.0
+offset_bottom = -83.0
 grow_vertical = 0
 scale = Vector2(2, 2)
 text = "Change Team"

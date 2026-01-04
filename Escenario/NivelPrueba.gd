@@ -13,9 +13,12 @@ var clients_ready_for_game = {}
 var first_tab = true
 
 func _ready():
-	# Lockeo todo hasta que los jugadores tengan todo cargado
-	$PantallaCarga.visible = false
-	multiplayer_node.movement_unlocked = true
+	
+	# Los jugadores que no estuvieron en el lobby no cargan la escena
+	if not multiplayer_node.players.has(multiplayer.get_unique_id()):
+		queue_free()
+		return
+	
 	# Cambio todos los estados de ready por no, para usarlo en el contexto
 	# de carga de mapa y no de lobby
 	for id in players:
@@ -47,8 +50,8 @@ func _ready():
 		world_seed = randi()
 		
 		# Envio a los clientes a que generen el mundo y despues empieza el server a generarlo
-		#rpc("receive_world_seed", world_seed, multiplayer_node.players)
-		#_spawn_world()
+		rpc("receive_world_seed", world_seed, multiplayer_node.players)
+		_spawn_world()
 		
 	else :
 		# El cliente ya esta listo para recibir informacion
@@ -134,6 +137,10 @@ func set_fow():
 		
 		if players[id].team != team:
 			
+			# Creo los shaders
+			var shaderEnemy = ShaderMaterial.new()
+			shaderEnemy.shader = preload("res://Assets/Shaders/FOWVisionShader.gdshader")
+			
 			# Escondo la luz que emite
 			player.get_node("Vision").enabled = false
 			
@@ -141,17 +148,27 @@ func set_fow():
 			player.get_node("Stats").visible = false
 			
 			# Creo un material visible unicamente con luz
-			var mat = CanvasItemMaterial.new()
-			mat.light_mode = CanvasItemMaterial.LIGHT_MODE_LIGHT_ONLY
+			# var mat = CanvasItemMaterial.new()
+			# mat.light_mode = CanvasItemMaterial.LIGHT_MODE_LIGHT_ONLY
 			
 			# Agrego el material al sprite
-			player.get_node("Sprite2D").material = mat
+			player.get_node("Sprite2D").material = shaderEnemy
 		
 		# Si el jugador si esta en su equipo
 		else:
+			var shaderAlly = ShaderMaterial.new()
+			shaderAlly.shader = preload("res://Assets/Shaders/AlliedTeam.gdshader")
+			
+			# Cambio el color del jugador aliado
+			player.get_node("Sprite2D").material = shaderAlly
+			
+			# Si es el jugador cambio su color
+			if id == multiplayer.get_unique_id():
+				player.get_node("Sprite2D").material.set_shader_parameter("clothes_color", Color("7bbdff"))
 			
 			# Agrego su nombre
 			player.get_node("Stats").get_node("PlayerName").text = players[id]["name"]
+			
 			
 
 func wait_for_multiple_players() -> void:
