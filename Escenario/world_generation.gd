@@ -90,9 +90,9 @@ func generate_world():
 			counter += 1
 			# Usar un valor mas alto hace que se cargue mas rapido el mapa pero haya
 			# mayor posibilidad de que se caiga el multi, y viceversa
-			if counter % 100 == 0:
+			#if counter % 100 == 0:
 				#print("Almost crashed", counter)
-				await get_tree().process_frame
+				# await get_tree().process_frame
 	
 	switch_biome_probability(source_arr[0], 1)
 	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_0, 0, 0)
@@ -117,7 +117,7 @@ func generate_world():
 	set_decoration_world()
 	
 	# Si ya se cargo todo pongo el player en ready
-	get_parent().player_ready()
+	# get_parent().player_ready()
 
 func set_decoration_world():
 	for x in range(width):

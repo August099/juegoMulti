@@ -26,11 +26,11 @@ func _ready():
 @onready var input := $PlayerInput
 
 func _physics_process(delta):
-	if !is_multiplayer_authority():
-		return
+	#if !is_multiplayer_authority():
+	#	return
 		
-	if not multiplayer_node.movement_unlocked:
-		return
+	#if not multiplayer_node.movement_unlocked:
+	#	return
 
 	var dir : Vector2 = input.move_direction
 	var friction_x := true
