@@ -13,6 +13,7 @@ properties/0/sync = true
 properties/0/watch = false
 
 [node name="player" type="CharacterBody2D"]
+z_index = 4
 script = ExtResource("1_w7ibk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -25,6 +26,7 @@ hframes = 4
 
 [node name="Camera2D" type="Camera2D" parent="."]
 z_index = 10
+zoom = Vector2(0.08, 0.08)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_yphoq")
