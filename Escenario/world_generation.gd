@@ -3,14 +3,16 @@ extends Node2D
 @export var noise_temperature_text: NoiseTexture2D
 @export var noise_moisture_text: NoiseTexture2D
 @export var noise_altitude_text: NoiseTexture2D
+@export var noise_island_falloff_text: NoiseTexture2D
 
 @onready var tile_map = $TileMap
 
-@export var world_seed: int
+@export var world_seed: int = randi()
 
 var temperature_noise: Noise
 var moisture_noise: Noise
 var altitude_noise: Noise
+var island_falloff_noise: Noise
 
 #layers
 var decoration_layer = 0
@@ -26,39 +28,45 @@ var tree_atlas_id = 9
 var source_arr = [0, 1, 2, 3, 4]
 
 #world size
-var width: int = 300
-var height: int = 300
+var width: float = 500.0
+var height: float = 500.0
 
 var center_x = width / 2.0
 var center_y = height / 2.0
-var max_distance = sqrt(center_x * center_x + center_y * center_y)
 
-var island_size = 0.8
-var terrain_gain = 0.6
+var island_size := 0.8
 
 # la dificultad del bioma se aplica segun lo cercano que este a la estructura del boss
 var biomes = {}
+
+# PARA PROTOTIPAR
+const multiplayer_options = false
 
 func _ready():
 	temperature_noise = noise_temperature_text.noise
 	moisture_noise = noise_moisture_text.noise
 	altitude_noise = noise_altitude_text.noise
+	island_falloff_noise = noise_island_falloff_text.noise
 	
 	temperature_noise.seed = randi() #world_seed
 	moisture_noise.seed = randi() #world_seed + 1
 	altitude_noise.seed = randi()
+	island_falloff_noise.seed = randi()
 	
 	print(temperature_noise.seed)
 	print(moisture_noise.seed)
 	
 	
-	#generate_world()
-	call_deferred("_start_world_generation")
+	if multiplayer_options:
+		call_deferred("_start_world_generation")
+	else:
+		generate_world()
 
 func generate_world():
 	
 	# Esto hace que los mundos tengan diferentes colores para el server y los clientes
-	source_arr.shuffle()
+	if !multiplayer_options:
+		source_arr.shuffle()
 	
 	var grass_tiles = {
 		"color_0": [],
@@ -67,27 +75,36 @@ func generate_world():
 		"color_3": [],
 		"color_4": []
 	}
-	
+
 	var counter := 0
-	
+
 	for x in range(width):
 		for y in range(height):
 			var pos = Vector2i(x, y)
 			var temperature_noise_value = (temperature_noise.get_noise_2d(x, y) + 1.0) * 0.5
 			var moisture_noise_value = (moisture_noise.get_noise_2d(x, y) + 1.0) * 0.5
 			var altitude_noise_value = (altitude_noise.get_noise_2d(x, y) + 1.0) * 0.5
+			var island_falloff_value = (island_falloff_noise.get_noise_2d(x, y) + 1.0) * 0.5
+
+#			var nx = (x - center_x) / center_x
+#			var ny = (y - center_y) / center_y
+#			var distance = sqrt(nx * nx + ny * ny)
+
+			var dx = min(x, width - x) / (width * 0.5)
+			var dy = min(y, height - y) / (height * 0.5)
+			var distance = clamp(min(dx, dy), 0.0, 1.0)
 			
-			var nx = (x - center_x) / center_x
-			var ny = (y - center_y) / center_y
-			var distance = sqrt(nx * nx + ny * ny)
+			if pos == Vector2i(0,250):
+				print(pos, " ", distance)
 			
-			distance = clamp(distance * island_size, 0.0, 1.0)
-			
-			if distance < island_size:
-				altitude_noise_value = clamp(altitude_noise_value / terrain_gain, 0.0, 1.1)
-			
-			altitude_noise_value = altitude_noise_value - falloff(distance)
-			
+# mientras mas grande es el numero que multiplica a la distancia, mas probable es que haya tierra cerca del borde
+			var falloff = clamp(pow(distance * 2 + island_falloff_value * 0.95, 3.0), 0.0, 1.0)
+
+			if altitude_noise_value < 0.6:
+				altitude_noise_value = 0.45 + 0.15 * pow(altitude_noise_value / 0.6, 1.5)
+
+			altitude_noise_value *= falloff
+
 			if altitude_noise_value > 0.5:
 				if (between(temperature_noise_value, 0, 0.35) && between(moisture_noise_value, 0, 0.55)) || (between(temperature_noise_value, 0.35, 0.6) && between(moisture_noise_value, 0.55, 0.75)):
 					grass_tiles.color_0.append(pos)
@@ -112,9 +129,10 @@ func generate_world():
 			counter += 1
 			# Usar un valor mas alto hace que se cargue mas rapido el mapa pero haya
 			# mayor posibilidad de que se caiga el multi, y viceversa
-			#if counter % 100 == 0:
-				#print("Almost crashed", counter)
-				# await get_tree().process_frame
+			if (counter % 100 == 0) and multiplayer_options:
+				print("Almost crashed", counter)
+				await get_tree().process_frame
+	
 	
 	switch_biome_probability(source_arr[0], 1)
 	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_0, 0, 0)
@@ -139,7 +157,8 @@ func generate_world():
 	set_decoration_world()
 	
 	# Si ya se cargo todo pongo el player en ready
-	# get_parent().player_ready()
+	if multiplayer_options:
+		get_parent().player_ready()
 
 func set_decoration_world():
 	for x in range(width):
@@ -167,22 +186,6 @@ func switch_biome_probability(source_id, probability):
 			var tile_data = source.get_tile_data(Vector2i(x, y), 0)
 			
 			tile_data.probability = probability
-
-func falloff(dist: float, a := 4.0, b := 2.6):
-	return pow(dist, a) / (pow(dist, a) + pow(b - b * dist, a))
-
-#var noise_temp_val_arr = []
-#var noise_moi_val_arr = []
-
-#noise_temp_val_arr.append(temperature_noise_value)
-#noise_moi_val_arr.append(moisture_noise_value)
-
-#print(noise_temp_val_arr.max())
-#print(noise_temp_val_arr.min())
-
-#print(noise_moi_val_arr.max())
-#print(noise_moi_val_arr.min())
-
 
 ###############################
 # ESTO EVITA QUE EL MULTIJUGADOR SE CAIGA MIENTRAS CARGA EL MAPA

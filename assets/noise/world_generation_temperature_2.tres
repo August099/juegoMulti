@@ -7,6 +7,6 @@ fractal_lacunarity = 1.4
 fractal_gain = 1.8
 
 [resource]
-width = 250
-height = 250
+width = 500
+height = 500
 noise = SubResource("FastNoiseLite_l1c3p")
