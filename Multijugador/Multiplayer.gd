@@ -1,7 +1,7 @@
 # multiplayer.gd
 extends Node
 
-const PORT = 4436
+var PORT = 4436
 
 signal gameStateChanged(gamestate)
 
@@ -15,6 +15,10 @@ enum GameState{MENU, LOBBY, IN_GAME}
 @export var game_state := GameState.MENU
 @export var movement_unlocked := false
 
+# AUGUS: NUBENET NO PUEDE ABRIR PUERTOS, ESTO LO TENES QUE DEHABILITAR PONIENDO FALSE
+const zt = false
+const zt_ip = "10.42.157.116"
+const zt_port = 33711
 
 func _ready():
 	# Start paused.
@@ -51,8 +55,12 @@ func setup_upnp(port: int):
 
 
 func _on_host_pressed():
-	# Abro el puerto
-	setup_upnp(PORT)
+	
+	if !zt:
+		# Abro el puerto
+		setup_upnp(PORT)
+	else:
+		PORT = zt_port
 	
 	# Start as server
 	var peer = ENetMultiplayerPeer.new()
@@ -76,7 +84,11 @@ func _on_join_pressed():
 	
 	var peer = ENetMultiplayerPeer.new()
 	
-	peer.create_client(adress, PORT)
+	if !zt:
+		peer.create_client(adress, PORT)
+	else:
+		PORT = zt_port
+		peer.create_client(zt_ip, PORT)
 	
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
 		OS.alert("Failed to start multiplayer client")
