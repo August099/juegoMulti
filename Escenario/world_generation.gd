@@ -7,7 +7,7 @@ extends Node2D
 
 @onready var tile_map = $TileMap
 
-@export var world_seed: int
+@export var world_seed: int = randi()
 
 var temperature_noise: Noise
 var moisture_noise: Noise
@@ -40,6 +40,9 @@ var island_size := 0.8
 # la dificultad del bioma se aplica segun lo cercano que este a la estructura del boss
 var biomes = {}
 
+# PARA PROTOTIPAR
+const multiplayer_options = false
+
 func _ready():
 	temperature_noise = noise_temperature_text.noise
 	moisture_noise = noise_moisture_text.noise
@@ -55,13 +58,16 @@ func _ready():
 	print(moisture_noise.seed)
 	
 	
-	#generate_world()
-	call_deferred("_start_world_generation")
+	if multiplayer_options:
+		call_deferred("_start_world_generation")
+	else:
+		generate_world()
 
 func generate_world():
 	
 	# Esto hace que los mundos tengan diferentes colores para el server y los clientes
-	source_arr.shuffle()
+	if !multiplayer_options:
+		source_arr.shuffle()
 	
 	var grass_tiles = {
 		"color_0": [],
@@ -114,7 +120,7 @@ func generate_world():
 			counter += 1
 			# Usar un valor mas alto hace que se cargue mas rapido el mapa pero haya
 			# mayor posibilidad de que se caiga el multi, y viceversa
-			#if counter % 100 == 0:
+			if (counter % 100 == 0) and multiplayer_options:
 				#print("Almost crashed", counter)
 				# await get_tree().process_frame
 	
@@ -142,7 +148,8 @@ func generate_world():
 	set_decoration_world()
 	
 	# Si ya se cargo todo pongo el player en ready
-	# get_parent().player_ready()
+	if multiplayer_options:
+		get_parent().player_ready()
 
 func set_decoration_world():
 	for x in range(width):

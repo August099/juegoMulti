@@ -1,31 +1,19 @@
-[gd_scene load_steps=31 format=3 uid="uid://c8kkijph46fur"]
+[gd_scene load_steps=27 format=3 uid="uid://c8kkijph46fur"]
 
 [ext_resource type="Texture2D" uid="uid://cb5gfumf8afjt" path="res://assets/Terrain/Tileset/Tilemap_color1.png" id="1_o8roq"]
 [ext_resource type="Script" path="res://Escenario/world_generation.gd" id="1_su5g7"]
-[ext_resource type="Texture2D" uid="uid://bfsrg8pw1pn4m" path="res://assets/Terrain/Tileset/Tilemap_color2.png" id="2_a0qb2"]
-[ext_resource type="Texture2D" uid="uid://dfafei44berlq" path="res://assets/noise/world_generation_temperature_2.tres" id="2_vp17p"]
-[ext_resource type="Texture2D" uid="uid://c7biwnixngoeh" path="res://assets/noise/world_generation_moisure.tres" id="3_1d3xq"]
-[ext_resource type="Texture2D" uid="uid://c4h1xyfnnrsgu" path="res://assets/Terrain/Tileset/Tilemap_color3.png" id="3_rjxea"]
-[ext_resource type="Texture2D" uid="uid://dc4x6boaie8ly" path="res://assets/Terrain/Tileset/Tilemap_color4.png" id="4_7vteo"]
-[ext_resource type="PackedScene" uid="uid://4txubk8awvn3" path="res://pruebas augusto/player.tscn" id="4_41ivw"]
-[ext_resource type="Texture2D" uid="uid://ciqqsab2je0my" path="res://assets/Terrain/Tileset/Tilemap_color5.png" id="5_yvus1"]
-[ext_resource type="Texture2D" uid="uid://xkljf62lus3m" path="res://assets/Terrain/Tileset/Water Background color.png" id="6_ub8bp"]
-[ext_resource type="Texture2D" uid="uid://bciphvi4ivp64" path="res://assets/Terrain/Tileset/Water Foam.png" id="7_og4n6"]
-[ext_resource type="Texture2D" uid="uid://oftn57osyq83" path="res://assets/Terrain/Decorations/Bushes/Bushe1.png" id="8_xmgne"]
-[ext_resource type="Texture2D" uid="uid://b2pjyi11kh6ct" path="res://assets/Terrain/Decorations/Bushes/Bushe3.png" id="9_l518k"]
-[ext_resource type="Texture2D" uid="uid://c2aohll6ortn3" path="res://assets/Terrain/Resources/Wood/Trees/Tree2.png" id="10_kfqus"]
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_0w4u6"]
-noise_type = 5
-frequency = 0.015
-fractal_octaves = 4
-fractal_gain = 0.45
-fractal_ping_pong_strength = 1.0
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_acbem"]
-width = 500
-height = 500
-noise = SubResource("FastNoiseLite_0w4u6")
+[ext_resource type="Texture2D" uid="uid://bfsrg8pw1pn4m" path="res://Assets/Terrain/Tileset/Tilemap_color2.png" id="2_a0qb2"]
+[ext_resource type="Texture2D" uid="uid://dfafei44berlq" path="res://Assets/noise/world_generation_temperature_2.tres" id="2_vp17p"]
+[ext_resource type="Texture2D" uid="uid://c7biwnixngoeh" path="res://Assets/noise/world_generation_moisure.tres" id="3_1d3xq"]
+[ext_resource type="Texture2D" uid="uid://c4h1xyfnnrsgu" path="res://Assets/Terrain/Tileset/Tilemap_color3.png" id="3_rjxea"]
+[ext_resource type="Texture2D" uid="uid://dc4x6boaie8ly" path="res://Assets/Terrain/Tileset/Tilemap_color4.png" id="4_7vteo"]
+[ext_resource type="Texture2D" uid="uid://b65ktlsghirsn" path="res://Assets/noise/world_generation_altitude.tres" id="4_fp3ib"]
+[ext_resource type="Texture2D" uid="uid://ciqqsab2je0my" path="res://Assets/Terrain/Tileset/Tilemap_color5.png" id="5_yvus1"]
+[ext_resource type="Texture2D" uid="uid://xkljf62lus3m" path="res://Assets/Terrain/Tileset/Water Background color.png" id="6_ub8bp"]
+[ext_resource type="Texture2D" uid="uid://bciphvi4ivp64" path="res://Assets/Terrain/Tileset/Water Foam.png" id="7_og4n6"]
+[ext_resource type="Texture2D" uid="uid://oftn57osyq83" path="res://Assets/Terrain/Decorations/Bushes/Bushe1.png" id="8_xmgne"]
+[ext_resource type="Texture2D" uid="uid://b2pjyi11kh6ct" path="res://Assets/Terrain/Decorations/Bushes/Bushe3.png" id="9_l518k"]
+[ext_resource type="Texture2D" uid="uid://c2aohll6ortn3" path="res://Assets/Terrain/Resources/Wood/Trees/Tree2.png" id="10_kfqus"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_184dh"]
 noise_type = 3
