@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ds6vxgvg575r7"
-path="res://.godot/imported/Barracks.png-51258343bfb9c4011bb4bba36cd653f0.ctex"
+path="res://.godot/imported/Barracks.png-337dd95ab1eeb4e30c1bcfcb776ad844.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Buildings/Red Buildings/Barracks.png"
-dest_files=["res://.godot/imported/Barracks.png-51258343bfb9c4011bb4bba36cd653f0.ctex"]
+source_file="res://assets/Buildings/Red Buildings/Barracks.png"
+dest_files=["res://.godot/imported/Barracks.png-337dd95ab1eeb4e30c1bcfcb776ad844.ctex"]
 
 [params]
 

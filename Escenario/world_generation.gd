@@ -28,12 +28,11 @@ var tree_atlas_id = 9
 var source_arr = [0, 1, 2, 3, 4]
 
 #world size
-var width: int = 500
-var height: int = 500
+var width: float = 500.0
+var height: float = 500.0
 
 var center_x = width / 2.0
 var center_y = height / 2.0
-var max_distance = sqrt(center_x * center_x + center_y * center_y)
 
 var island_size := 0.8
 
@@ -76,7 +75,7 @@ func generate_world():
 		"color_3": [],
 		"color_4": []
 	}
-	
+
 	var counter := 0
 
 	for x in range(width):
@@ -87,12 +86,22 @@ func generate_world():
 			var altitude_noise_value = (altitude_noise.get_noise_2d(x, y) + 1.0) * 0.5
 			var island_falloff_value = (island_falloff_noise.get_noise_2d(x, y) + 1.0) * 0.5
 
-			var nx = (x - center_x) / center_x
-			var ny = (y - center_y) / center_y
-			var distance = sqrt(nx * nx + ny * ny)
-			distance = clamp(distance, 0.0, 1.0)
+#			var nx = (x - center_x) / center_x
+#			var ny = (y - center_y) / center_y
+#			var distance = sqrt(nx * nx + ny * ny)
+
+			var dx = min(x, width - x) / (width * 0.5)
+			var dy = min(y, height - y) / (height * 0.5)
+			var distance = clamp(min(dx, dy), 0.0, 1.0)
+			
+			if pos == Vector2i(0,250):
+				print(pos, " ", distance)
+			
 # mientras mas grande es el numero que multiplica a la distancia, mas probable es que haya tierra cerca del borde
-			var falloff = clamp(pow((1 - distance) * 3.5 + island_falloff_value * 0.2, 3.0), 0.0, 1.0)
+			var falloff = clamp(pow(distance * 2 + island_falloff_value * 0.95, 3.0), 0.0, 1.0)
+
+			if altitude_noise_value < 0.6:
+				altitude_noise_value = 0.45 + 0.15 * pow(altitude_noise_value / 0.6, 1.5)
 
 			altitude_noise_value *= falloff
 
@@ -121,8 +130,8 @@ func generate_world():
 			# Usar un valor mas alto hace que se cargue mas rapido el mapa pero haya
 			# mayor posibilidad de que se caiga el multi, y viceversa
 			if (counter % 100 == 0) and multiplayer_options:
-				#print("Almost crashed", counter)
-				# await get_tree().process_frame
+				print("Almost crashed", counter)
+				await get_tree().process_frame
 	
 	
 	switch_biome_probability(source_arr[0], 1)
@@ -177,19 +186,6 @@ func switch_biome_probability(source_id, probability):
 			var tile_data = source.get_tile_data(Vector2i(x, y), 0)
 			
 			tile_data.probability = probability
-
-#var noise_temp_val_arr = []
-#var noise_moi_val_arr = []
-
-#noise_temp_val_arr.append(temperature_noise_value)
-#noise_moi_val_arr.append(moisture_noise_value)
-
-#print(noise_temp_val_arr.max())
-#print(noise_temp_val_arr.min())
-
-#print(noise_moi_val_arr.max())
-#print(noise_moi_val_arr.min())
-
 
 ###############################
 # ESTO EVITA QUE EL MULTIJUGADOR SE CAIGA MIENTRAS CARGA EL MAPA

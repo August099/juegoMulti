@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dt6dhrrifd0sj"
-path="res://.godot/imported/Pawn_Interact Axe.png-580b6e1f47bb28e79957a5bc3caecc25.ctex"
+path="res://.godot/imported/Pawn_Interact Axe.png-0c4132b9e341584c2d6a03829ad27c05.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Units/Blue Units/Pawn/Pawn_Interact Axe.png"
-dest_files=["res://.godot/imported/Pawn_Interact Axe.png-580b6e1f47bb28e79957a5bc3caecc25.ctex"]
+source_file="res://assets/Units/Blue Units/Pawn/Pawn_Interact Axe.png"
+dest_files=["res://.godot/imported/Pawn_Interact Axe.png-0c4132b9e341584c2d6a03829ad27c05.ctex"]
 
 [params]
 
