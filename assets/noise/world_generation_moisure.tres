@@ -9,6 +9,6 @@ fractal_gain = 1.5
 fractal_weighted_strength = 0.2
 
 [resource]
-width = 250
-height = 250
+width = 500
+height = 500
 noise = SubResource("FastNoiseLite_hcqlc")
