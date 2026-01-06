@@ -120,7 +120,7 @@ func generate_world():
 			# mayor posibilidad de que se caiga el multi, y viceversa
 			if (counter % 100 == 0) and multiplayer_options:
 				#print("Almost crashed", counter)
-				await get_tree().process_frame
+				# await get_tree().process_frame
 	
 	switch_biome_probability(source_arr[0], 1)
 	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_0, 0, 0)
