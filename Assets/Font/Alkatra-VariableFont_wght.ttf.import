@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://bisub7n1yci2n"
-path="res://.godot/imported/Alkatra-VariableFont_wght.ttf-66dcb9f8fdb43846acf1906ae870e372.fontdata"
+path="res://.godot/imported/Alkatra-VariableFont_wght.ttf-65c91fdea42471752c40110f942078c5.fontdata"
 
 [deps]
 
-source_file="res://assets/Font/Alkatra-VariableFont_wght.ttf"
-dest_files=["res://.godot/imported/Alkatra-VariableFont_wght.ttf-66dcb9f8fdb43846acf1906ae870e372.fontdata"]
+source_file="res://Assets/Font/Alkatra-VariableFont_wght.ttf"
+dest_files=["res://.godot/imported/Alkatra-VariableFont_wght.ttf-65c91fdea42471752c40110f942078c5.fontdata"]
 
 [params]
 

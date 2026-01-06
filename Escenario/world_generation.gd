@@ -40,7 +40,7 @@ var island_size := 0.8
 var biomes = {}
 
 # PARA PROTOTIPAR
-const multiplayer_options = false
+@export var multiplayer_options = false
 
 func _ready():
 	temperature_noise = noise_temperature_text.noise
@@ -130,7 +130,7 @@ func generate_world():
 			# Usar un valor mas alto hace que se cargue mas rapido el mapa pero haya
 			# mayor posibilidad de que se caiga el multi, y viceversa
 			if (counter % 100 == 0) and multiplayer_options:
-				print("Almost crashed", counter)
+				#print("Almost crashed", counter)
 				await get_tree().process_frame
 	
 	

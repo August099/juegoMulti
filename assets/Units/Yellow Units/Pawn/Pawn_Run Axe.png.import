@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://770f3jpiuer1"
-path="res://.godot/imported/Pawn_Run Axe.png-971091b6c6c50d5bc96a5730c3a60f59.ctex"
+path="res://.godot/imported/Pawn_Run Axe.png-54eb1fa12d26c368e462cf2f49fa9427.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Units/Yellow Units/Pawn/Pawn_Run Axe.png"
-dest_files=["res://.godot/imported/Pawn_Run Axe.png-971091b6c6c50d5bc96a5730c3a60f59.ctex"]
+source_file="res://Assets/Units/Yellow Units/Pawn/Pawn_Run Axe.png"
+dest_files=["res://.godot/imported/Pawn_Run Axe.png-54eb1fa12d26c368e462cf2f49fa9427.ctex"]
 
 [params]
 

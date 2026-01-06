@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4e4mhd8p760p"
-path="res://.godot/imported/Water Rocks_04.png-63bdbeb0a1ed521474b9f092aec9bab9.ctex"
+uid="uid://qeaf5m8tpcm5"
+path="res://.godot/imported/Palette.jpg-88c49b643c9d5e2bf3b18571eddbf4a9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Terrain/Decorations/Rocks in the Water/Water Rocks_04.png"
-dest_files=["res://.godot/imported/Water Rocks_04.png-63bdbeb0a1ed521474b9f092aec9bab9.ctex"]
+source_file="res://Assets/Sprites/Palette.jpg"
+dest_files=["res://.godot/imported/Palette.jpg-88c49b643c9d5e2bf3b18571eddbf4a9.ctex"]
 
 [params]
 

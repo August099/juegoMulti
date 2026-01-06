@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cj4wfyrlymje8"
-path="res://.godot/imported/Warrior_Guard.png-80a9da65656dbd9c53bde5a5a43ac5fd.ctex"
+path="res://.godot/imported/Warrior_Guard.png-a7a6bfa6d4961cf73e43c3f808d0e600.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Units/Yellow Units/Warrior/Warrior_Guard.png"
-dest_files=["res://.godot/imported/Warrior_Guard.png-80a9da65656dbd9c53bde5a5a43ac5fd.ctex"]
+source_file="res://Assets/Units/Yellow Units/Warrior/Warrior_Guard.png"
+dest_files=["res://.godot/imported/Warrior_Guard.png-a7a6bfa6d4961cf73e43c3f808d0e600.ctex"]
 
 [params]
 
