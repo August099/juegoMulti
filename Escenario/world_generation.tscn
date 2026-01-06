@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://c8kkijph46fur"]
+[gd_scene load_steps=27 format=3 uid="uid://c8kkijph46fur"]
 
 [ext_resource type="Texture2D" uid="uid://cb5gfumf8afjt" path="res://Assets/Terrain/Tileset/Tilemap_color1.png" id="1_o8roq"]
 [ext_resource type="Script" path="res://Escenario/world_generation.gd" id="1_su5g7"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://c7biwnixngoeh" path="res://Assets/noise/world_generation_moisure.tres" id="3_1d3xq"]
 [ext_resource type="Texture2D" uid="uid://c4h1xyfnnrsgu" path="res://Assets/Terrain/Tileset/Tilemap_color3.png" id="3_rjxea"]
 [ext_resource type="Texture2D" uid="uid://dc4x6boaie8ly" path="res://Assets/Terrain/Tileset/Tilemap_color4.png" id="4_7vteo"]
+[ext_resource type="Texture2D" uid="uid://b65ktlsghirsn" path="res://Assets/noise/world_generation_altitude.tres" id="4_fp3ib"]
 [ext_resource type="Texture2D" uid="uid://ciqqsab2je0my" path="res://Assets/Terrain/Tileset/Tilemap_color5.png" id="5_yvus1"]
 [ext_resource type="Texture2D" uid="uid://xkljf62lus3m" path="res://Assets/Terrain/Tileset/Water Background color.png" id="6_ub8bp"]
 [ext_resource type="Texture2D" uid="uid://bciphvi4ivp64" path="res://Assets/Terrain/Tileset/Water Foam.png" id="7_og4n6"]
@@ -2174,6 +2175,7 @@ pattern_0 = SubResource("TileMapPattern_20loj")
 script = ExtResource("1_su5g7")
 noise_temperature_text = ExtResource("2_vp17p")
 noise_moisture_text = ExtResource("3_1d3xq")
+noise_altitude_text = ExtResource("4_fp3ib")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_4rfnk")
