@@ -2200,6 +2200,7 @@ noise_temperature_text = ExtResource("2_vp17p")
 noise_moisture_text = ExtResource("3_1d3xq")
 noise_altitude_text = SubResource("NoiseTexture2D_acbem")
 noise_island_falloff_text = SubResource("NoiseTexture2D_5nfj1")
+multiplayer_options = true
 
 [node name="player" parent="." instance=ExtResource("4_41ivw")]
 

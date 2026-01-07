@@ -40,7 +40,8 @@ PRIORITARIAS:
 - Estructuras
 
 
-OPCIONALES:
+SECUNDARIAS/OPCIONALES:
+- Los items se ven en el piso al dropearlos (permitir droppear objetos)
 - Minimapa
 - Configuracion de partida desde el lobby (stats iniciales de jugadores, spawn de items, de armas  y estructuras, formacion del mapa, etc)
 - Multiples equipos (Gana el ultimo en pie, posibilidad de que los equipos eliminados revivan como npcs)
@@ -76,7 +77,17 @@ Activa: Durante x segundos el jugador recibe un porcentaje de daño menos
 Activa: Durante x segundos el jugador no recibe daño
 Activa: Durante x segundos el jugador toma la forma de un npc
 Activa: Durante x segundos el jugador se hace invisible
-
+Pasiva: Reduce el tamaño del jugador, y por lo tanto tambien su hitbox
+Pasiva: Aumenta el tamaño del jugador y su hitbox, a cambio de un aumento de vision y vida
+Pasiva: Aumenta el rango de vision del jugador
+Pasiva: Aumenta el espacio de items (en lugar de 3 a 5, es decir, un slot mas), no se puede droppear
+Pasiva: Al ser lastimado tiene un aumento de daño y velocidad de movimiento
+Pasiva: El cuerpo del jugador brilla cuando un enemigo tiene vision del el
+Activa: Tira una granada que da vision en un area durante x segundos
+Activa: En da velocidad de moviemiento a todos los personajes aliados en un area
+Activa: Durante x segundos evita que cualquier unidad muera en un area (enemigos y aliados)
+Activa: En un area alrededor del jugador se activa una zona, si golpea a un enemigo, este recibe daño y queda inmobilizado unos segundos, de lo contrario, el jugador queda inmobilizado
+Pasiva: Cada x segundos, el personaje se vuelve invulnerable unos segundos
 
 
 

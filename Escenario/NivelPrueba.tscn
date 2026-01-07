@@ -31,6 +31,7 @@ position = Vector2(1556, 842)
 [node name="Spawn1" type="Node2D" parent="."]
 
 [node name="PantallaCarga" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="Control" type="Control" parent="PantallaCarga"]
 layout_mode = 3
