@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bqhigsh1q565i"
-path="res://.godot/imported/Rubber duck.png-594f4f71c83b7889bae18873fb83b309.ctex"
+path="res://.godot/imported/Rubber duck.png-6b912a1872830b9b3d9f7be9546fbf0d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Terrain/Decorations/Rubber Duck/Rubber duck.png"
-dest_files=["res://.godot/imported/Rubber duck.png-594f4f71c83b7889bae18873fb83b309.ctex"]
+source_file="res://Assets/Terrain/Decorations/Rubber Duck/Rubber duck.png"
+dest_files=["res://.godot/imported/Rubber duck.png-6b912a1872830b9b3d9f7be9546fbf0d.ctex"]
 
 [params]
 

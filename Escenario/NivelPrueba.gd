@@ -152,7 +152,7 @@ func set_fow():
 			# mat.light_mode = CanvasItemMaterial.LIGHT_MODE_LIGHT_ONLY
 			
 			# Agrego el material al sprite
-			player.get_node("Sprite2D").material = shaderEnemy
+			player.get_node("AnimatedSprite2D").material = shaderEnemy
 		
 		# Si el jugador si esta en su equipo
 		else:
@@ -160,11 +160,11 @@ func set_fow():
 			shaderAlly.shader = preload("res://Assets/Shaders/AlliedTeam.gdshader")
 			
 			# Cambio el color del jugador aliado
-			player.get_node("Sprite2D").material = shaderAlly
+			player.get_node("AnimatedSprite2D").material = shaderAlly
 			
 			# Si es el jugador cambio su color
 			if id == multiplayer.get_unique_id():
-				player.get_node("Sprite2D").material.set_shader_parameter("clothes_color", Color("7bbdff"))
+				player.get_node("AnimatedSprite2D").material.set_shader_parameter("clothes_color", Color("7bbdff"))
 			
 			# Agrego su nombre
 			player.get_node("Stats").get_node("PlayerName").text = players[id]["name"]
@@ -367,10 +367,10 @@ func update_tab():
 	# Si el tab ya existe, en vez de borrar todo y volver a crearlo, soloa ctualizo el ping
 	if tab1.get_child_count() + tab2.get_child_count() == multiplayer_node.players.size()*2:
 		for player_id in multiplayer_node.players:
-			if tab1.get_node(str(player_id)) != null:
+			if tab1.has_node(str(player_id)):
 				tab1.get_node(str(player_id)).text = str(multiplayer_node.players[player_id].ping) + "ms"
 			
-			if tab2.get_node(str(player_id)) != null:
+			if tab2.has_node(str(player_id)):
 				tab2.get_node(str(player_id)).text = str(multiplayer_node.players[player_id].ping) + "ms"
 				
 		return

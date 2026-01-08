@@ -1,0 +1,117 @@
+-----------JUEGO-----------
+
+BASE: Juego Top-Down en equipos centrado en la vision y en la busqueda de mejoras/items
+
+VICTORIA: Eliminar por completo al otro equipo | Matar (ultimo golpe) a boss final
+
+Los jugadores reviven por si solos al cabo de un tiempo
+
+MEJORAS: Los jugadores pueden mejorar de 3 formas. Mejorando las stats base del jugador en la FOGATA, 
+consiguiendo armas con mejores stats o mejoras de estas en la HERRERIA, 
+o consiguiendo ITEMS que den pasivas, activas o stats.
+
+RECURSOS: Moneda y Exp
+
+Las monedas se intercambian por items en un mercante, o se intercambian por mejoras del arma en la herreria
+La experiencia se intercambia por mejoras permanentes en la fogata
+
+STATS Y UI:
+Los jugadores cuentan con vida, dinero y experiencia
+Cada jugador tiene 3 slots para items, 1 si o si para arma y 2 para arma o item
+Las estadisticas de un jugador estan compuestas por:
+vida, daño, velocidad de movimiento, velocidad de ataque y probabilidad de daño critico
+
+DROPS: 
+Los npcs dropean experiencia y monedas, con un multiplicador definido por azar, y otro por nivel del npc
+En ciertas ocasiones pueden dropear armas o items
+
+Por el mapa tambien spawnean cofres con armas y/o items garantizados
+
+-----------IMPLEMENTACIONES-----------
+
+PRIORITARIAS:
+- Multijugador
+- Generacion de mapa
+- Sprites
+- Inventario
+- Enemigos
+- Recursos
+- Bosses
+- Estructuras
+
+
+SECUNDARIAS/OPCIONALES:
+- Los items se ven en el piso al dropearlos (permitir droppear objetos)
+- Minimapa
+- Configuracion de partida desde el lobby (stats iniciales de jugadores, spawn de items, de armas  y estructuras, formacion del mapa, etc)
+- Multiples equipos (Gana el ultimo en pie, posibilidad de que los equipos eliminados revivan como npcs)
+- Rango de vision en cono
+
+
+
+-----------ESTRUCTURAS-----------
+
+FOGATA: Da vision siempre (todos los jugadores saben donde esta y pueden ver siempre quien esta dentro)
+En ella se puede intercambiar exp por mejoras de las stats base del personaje permanentes
+
+MERCANTE: Spawnea despues de 5 minutos en un rango alejado de los 2 equipos, al entrar en algun rango de vision
+comienza un timer de 2 minutos, despues de los cuales el mercante desaparecera por un tiempo y volvera a spawnear
+en otra posicion. Si cualquier jugador es lastimado cerca del mercante, este cierra sus puertas y evita cualquier
+compra por unos segundos luego de que no reciba daño ningun jugador (el timer de desaparecimiento no se pausa)
+
+El mercante ofrece items a cambio de monedas
+
+HERRERIA: Permite mejorar y comprar armas a cambio de monedas
+
+-----------OBJETOS-----------
+
+Los items tienen rarezas y niveles que mejoran sus efectos (algunos)
+
+Activa: Por x segundo el jugador ve a traves de los obstaculos
+Activa: Por x segundos el jugador tiene velocidad de movimiento (daño/vel. de ataque) extra
+Activa: Por x segundos el jugador atraviesa obstaculos
+Pasiva: La posicion del mercante es revelada por x segundos cuando spawnea
+Activa: El jugador tiene un dash
+Pasiva: El jugador tiene veneno con armas a distancia (cuerpo a cuerpo)
+Activa: Durante x segundos el jugador recibe un porcentaje de daño menos
+Activa: Durante x segundos el jugador no recibe daño
+Activa: Durante x segundos el jugador toma la forma de un npc
+Activa: Durante x segundos el jugador se hace invisible
+Pasiva: Reduce el tamaño del jugador, y por lo tanto tambien su hitbox
+Pasiva: Aumenta el tamaño del jugador y su hitbox, a cambio de un aumento de vision y vida
+Pasiva: Aumenta el rango de vision del jugador
+Pasiva: Aumenta el espacio de items (en lugar de 3 a 5, es decir, un slot mas), no se puede droppear
+Pasiva: Al ser lastimado tiene un aumento de daño y velocidad de movimiento
+Pasiva: El cuerpo del jugador brilla cuando un enemigo tiene vision del el
+Activa: Tira una granada que da vision en un area durante x segundos
+Activa: En da velocidad de moviemiento a todos los personajes aliados en un area
+Activa: Durante x segundos evita que cualquier unidad muera en un area (enemigos y aliados)
+Activa: En un area alrededor del jugador se activa una zona, si golpea a un enemigo, este recibe daño y queda inmobilizado unos segundos, de lo contrario, el jugador queda inmobilizado
+Pasiva: Cada x segundos, el personaje se vuelve invulnerable unos segundos
+
+
+
+-----------ESTETICA-----------
+
+Top-down, 32 bits
+
+paleta de colores: https://lospec.com/palette-list/sweetie-16
+
+Bordes: Para decoraciones los bordes son del color mas cercano, para el personaje y armas son negros
+
+Luz:
+
+┌───────────────────────────────────┐
+│                                   │
+│                        x───┐      │
+│                      xx│   │ LUZ  │
+│                  xxxx  └───┘      │
+│                xxx     xxxxx      │
+│               xx    xxxx          │
+│              xx  xxxx             │
+│        ┌───┬──┐ xx                │
+│        │   └──┼x                  │
+│        │      │                   │
+│        └──────┘OBJETO/PERSONAJE   │
+│                                   │
+└───────────────────────────────────┘

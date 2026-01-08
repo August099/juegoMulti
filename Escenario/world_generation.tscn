@@ -1,12 +1,12 @@
 [gd_scene load_steps=37 format=3 uid="uid://c8kkijph46fur"]
 
-[ext_resource type="Texture2D" uid="uid://cb5gfumf8afjt" path="res://assets/Terrain/Tileset/Tilemap_color1.png" id="1_o8roq"]
+[ext_resource type="Texture2D" uid="uid://cb5gfumf8afjt" path="res://Assets/Terrain/Tileset/Tilemap_color1.png" id="1_o8roq"]
 [ext_resource type="Script" path="res://Escenario/world_generation.gd" id="1_su5g7"]
-[ext_resource type="Texture2D" uid="uid://bfsrg8pw1pn4m" path="res://assets/Terrain/Tileset/Tilemap_color2.png" id="2_a0qb2"]
-[ext_resource type="Texture2D" uid="uid://dfafei44berlq" path="res://assets/noise/world_generation_temperature_2.tres" id="2_vp17p"]
-[ext_resource type="Texture2D" uid="uid://c7biwnixngoeh" path="res://assets/noise/world_generation_moisure.tres" id="3_1d3xq"]
-[ext_resource type="Texture2D" uid="uid://c4h1xyfnnrsgu" path="res://assets/Terrain/Tileset/Tilemap_color3.png" id="3_rjxea"]
-[ext_resource type="Texture2D" uid="uid://dc4x6boaie8ly" path="res://assets/Terrain/Tileset/Tilemap_color4.png" id="4_7vteo"]
+[ext_resource type="Texture2D" uid="uid://bfsrg8pw1pn4m" path="res://Assets/Terrain/Tileset/Tilemap_color2.png" id="2_a0qb2"]
+[ext_resource type="Texture2D" uid="uid://dfafei44berlq" path="res://Assets/noise/world_generation_temperature_2.tres" id="2_vp17p"]
+[ext_resource type="Texture2D" uid="uid://c7biwnixngoeh" path="res://Assets/noise/world_generation_moisure.tres" id="3_1d3xq"]
+[ext_resource type="Texture2D" uid="uid://c4h1xyfnnrsgu" path="res://Assets/Terrain/Tileset/Tilemap_color3.png" id="3_rjxea"]
+[ext_resource type="Texture2D" uid="uid://dc4x6boaie8ly" path="res://Assets/Terrain/Tileset/Tilemap_color4.png" id="4_7vteo"]
 [ext_resource type="PackedScene" uid="uid://4txubk8awvn3" path="res://pruebas augusto/player.tscn" id="4_41ivw"]
 [ext_resource type="Texture2D" uid="uid://ciqqsab2je0my" path="res://assets/Terrain/Tileset/Tilemap_color5.png" id="5_yvus1"]
 [ext_resource type="Texture2D" uid="uid://xkljf62lus3m" path="res://assets/Terrain/Tileset/Water Background color.png" id="6_ub8bp"]
@@ -2279,6 +2279,7 @@ noise_temperature_text = ExtResource("2_vp17p")
 noise_moisture_text = ExtResource("3_1d3xq")
 noise_altitude_text = SubResource("NoiseTexture2D_acbem")
 noise_island_falloff_text = SubResource("NoiseTexture2D_5nfj1")
+multiplayer_options = true
 
 [node name="player" parent="." instance=ExtResource("4_41ivw")]
 

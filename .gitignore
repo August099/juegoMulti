@@ -1,11 +1,19 @@
-.import/
-*.import
+# Godot 4
 .godot/
-.nomedia
-export.cfg
-export_credentials.cfg
-*.translation
+
+# Exportaciones
+/export/
+
+# Archivos temporales
+*.tmp
+*.log
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Editor configs locales
+.editorconfig
+
+# Mono / C#
 .mono/
-data_*/
-mono_crash.*.json
-assets

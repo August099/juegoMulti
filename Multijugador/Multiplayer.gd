@@ -16,7 +16,7 @@ enum GameState{MENU, LOBBY, IN_GAME}
 @export var movement_unlocked := false
 
 # AUGUS: NUBENET NO PUEDE ABRIR PUERTOS, ESTO LO TENES QUE DEHABILITAR PONIENDO FALSE
-const zt = false
+@export var zt = false
 const zt_ip = "10.42.157.116"
 const zt_port = 33711
 
