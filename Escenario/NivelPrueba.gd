@@ -147,12 +147,10 @@ func set_fow():
 			# Tambien escondo el nombre y la vida
 			player.get_node("Stats").visible = false
 			
-			# Creo un material visible unicamente con luz
-			# var mat = CanvasItemMaterial.new()
-			# mat.light_mode = CanvasItemMaterial.LIGHT_MODE_LIGHT_ONLY
-			
 			# Agrego el material al sprite
+			player.get_node("AnimatedWeapon").material = shaderEnemy
 			player.get_node("AnimatedSprite2D").material = shaderEnemy
+			player.get_node("AnimatedSprite2D").material.set_shader_parameter("clothes_color", Color("e43b44"))
 		
 		# Si el jugador si esta en su equipo
 		else:
@@ -164,7 +162,9 @@ func set_fow():
 			
 			# Si es el jugador cambio su color
 			if id == multiplayer.get_unique_id():
-				player.get_node("AnimatedSprite2D").material.set_shader_parameter("clothes_color", Color("7bbdff"))
+				player.get_node("AnimatedSprite2D").material.set_shader_parameter("clothes_color", Color("2ce8f5"))
+			else:
+				player.get_node("AnimatedSprite2D").material.set_shader_parameter("clothes_color", Color("0099db"))
 			
 			# Agrego su nombre
 			player.get_node("Stats").get_node("PlayerName").text = players[id]["name"]
@@ -292,7 +292,7 @@ func every_map_loaded():
 	# Cuando todos estan listos saco la pantalla de carga y habilito el movimiento de las entidades
 	$PantallaCarga.visible = false
 	multiplayer_node.movement_unlocked = true
-	
+	multiplayer_node.get_node('Lobby').queue_free()
 	
 func actualizar_carga():
 	

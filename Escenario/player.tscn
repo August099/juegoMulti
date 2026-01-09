@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://o4svm0t826cc"]
+[gd_scene load_steps=70 format=3 uid="uid://o4svm0t826cc"]
 
 [ext_resource type="Texture2D" uid="uid://c0dshid8bvmgb" path="res://icon.svg" id="1_kui6b"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="2_the84"]
@@ -11,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://cd4pqmkiyb6dk" path="res://Assets/Sprites/Player/PlayerWalkFront.png" id="8_t17ll"]
 [ext_resource type="Texture2D" uid="uid://dx2tsktb8a48" path="res://Assets/Sprites/Player/PlayerWalkLeft.png" id="9_y0shu"]
 [ext_resource type="Texture2D" uid="uid://f3r7g6u8nol1" path="res://Assets/Sprites/Player/PlayerWalkRight.png" id="10_iwkiw"]
+[ext_resource type="Texture2D" uid="uid://1uema7cyho1p" path="res://Assets/Sprites/Items/Weapons/HandAttack.png" id="12_yi06w"]
+[ext_resource type="Texture2D" uid="uid://dwkjjksqx0bkf" path="res://Assets/Sprites/Items/Weapons/HandIdle.png" id="13_78gw8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cn6yd"]
 size = Vector2(29, 65)
@@ -369,6 +371,68 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_vwbol"]
+atlas = ExtResource("12_yi06w")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_603ox"]
+atlas = ExtResource("12_yi06w")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mllkk"]
+atlas = ExtResource("12_yi06w")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ysru8"]
+atlas = ExtResource("12_yi06w")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_711w3"]
+atlas = ExtResource("12_yi06w")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x8uc1"]
+atlas = ExtResource("12_yi06w")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1xk4b"]
+atlas = ExtResource("13_78gw8")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k8l5t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vwbol")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_603ox")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mllkk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ysru8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_711w3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x8uc1")
+}],
+"loop": false,
+"name": &"HandAttack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1xk4b")
+}],
+"loop": false,
+"name": &"HandIdle",
+"speed": 5.0
+}]
+
 [node name="player" type="CharacterBody2D"]
 process_mode = 3
 z_index = 5
@@ -449,3 +513,12 @@ sprite_frames = SubResource("SpriteFrames_glocq")
 animation = &"IdleRight"
 frame_progress = 0.833602
 speed_scale = 2.0
+
+[node name="AnimatedWeapon" type="AnimatedSprite2D" parent="."]
+position = Vector2(2, -31)
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_k8l5t")
+animation = &"HandAttack"
+speed_scale = 4.0
+
+[connection signal="animation_finished" from="AnimatedWeapon" to="." method="_on_animated_weapon_animation_finished"]
