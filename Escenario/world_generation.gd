@@ -97,8 +97,13 @@ func generate_world():
 			if pos == Vector2i(0,250):
 				print(pos, " ", distance)
 			
-# mientras mas grande es el numero que multiplica a la distancia, mas probable es que haya tierra cerca del borde
-			var falloff = clamp(pow(distance * 2 + island_falloff_value * 0.95, 3.0), 0.0, 1.0)
+# pow((distance + x) * y + island_falloff_value * z, 3.0)
+# x = mueve la funcion en el eje x (puede hacer que 
+#     la tierra este mas cerca o mas lejos de los bordes)
+# y = indica la fuerza del corte, mas grande es, mas bruzco es el corte
+# z = le da forma a los bordes, mientras mas grande el numero, 
+#     mas relieve tiene el borde
+			var falloff = clamp(pow((distance + 0.08) * 1.8 + island_falloff_value * 0.8, 3.0), 0.0, 1.0)
 
 			if altitude_noise_value < 0.6:
 				altitude_noise_value = 0.45 + 0.15 * pow(altitude_noise_value / 0.6, 1.5)
