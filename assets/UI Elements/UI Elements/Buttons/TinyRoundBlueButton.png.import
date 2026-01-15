@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dfagwrdd4y0st"
-path="res://.godot/imported/TinyRoundBlueButton.png-f78b015f15d2a302049d41fff5415e5f.ctex"
+path="res://.godot/imported/TinyRoundBlueButton.png-2da01a097e946222143542d8ec667378.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/UI Elements/UI Elements/Buttons/TinyRoundBlueButton.png"
-dest_files=["res://.godot/imported/TinyRoundBlueButton.png-f78b015f15d2a302049d41fff5415e5f.ctex"]
+source_file="res://assets/UI Elements/UI Elements/Buttons/TinyRoundBlueButton.png"
+dest_files=["res://.godot/imported/TinyRoundBlueButton.png-2da01a097e946222143542d8ec667378.ctex"]
 
 [params]
 

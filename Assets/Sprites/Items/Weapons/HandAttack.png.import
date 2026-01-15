@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://1uema7cyho1p"
-path="res://.godot/imported/HandAttack.png-f81bdf759277c6960e812d57329b9a04.ctex"
+path="res://.godot/imported/HandAttack.png-054eb5e656446b104c0e8dae108cdeb9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Items/Weapons/HandAttack.png"
-dest_files=["res://.godot/imported/HandAttack.png-f81bdf759277c6960e812d57329b9a04.ctex"]
+source_file="res://assets/Sprites/Items/Weapons/HandAttack.png"
+dest_files=["res://.godot/imported/HandAttack.png-054eb5e656446b104c0e8dae108cdeb9.ctex"]
 
 [params]
 

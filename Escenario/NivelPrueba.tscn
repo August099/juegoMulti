@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://buq47qc8ap5h8"]
 
 [ext_resource type="Script" path="res://Escenario/NivelPrueba.gd" id="1_vugom"]
-[ext_resource type="TileSet" uid="uid://2d03btp2ybwt" path="res://Assets/Terrain/TILESET.tres" id="2_83sa8"]
+[ext_resource type="TileSet" uid="uid://2d03btp2ybwt" path="res://assets/Terrain/TILESET.tres" id="2_83sa8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vu3xj"]
 bg_color = Color(0.145098, 0.145098, 0.145098, 1)

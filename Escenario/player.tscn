@@ -5,12 +5,12 @@
 [ext_resource type="Shader" path="res://Assets/Shaders/FOWVisionShader.gdshader" id="2_xo5s7"]
 [ext_resource type="Script" path="res://Multijugador/PlayerInput.gd" id="3_xi4e7"]
 [ext_resource type="Shader" path="res://Assets/Shaders/AlliedTeam.gdshader" id="5_7pcox"]
-[ext_resource type="Texture2D" uid="uid://o6h8onh8u7uy" path="res://Assets/Sprites/Player/PlayerIdleLeft.png" id="5_liccc"]
-[ext_resource type="Texture2D" uid="uid://d0ij53b1rgbku" path="res://Assets/Sprites/Player/PlayerIdleRight.png" id="6_tmq60"]
-[ext_resource type="Texture2D" uid="uid://ch22slk6qmt7i" path="res://Assets/Sprites/Player/PlayerWalkBack.png" id="7_oj1hq"]
-[ext_resource type="Texture2D" uid="uid://cd4pqmkiyb6dk" path="res://Assets/Sprites/Player/PlayerWalkFront.png" id="8_t17ll"]
-[ext_resource type="Texture2D" uid="uid://dx2tsktb8a48" path="res://Assets/Sprites/Player/PlayerWalkLeft.png" id="9_y0shu"]
-[ext_resource type="Texture2D" uid="uid://f3r7g6u8nol1" path="res://Assets/Sprites/Player/PlayerWalkRight.png" id="10_iwkiw"]
+[ext_resource type="Texture2D" uid="uid://o6h8onh8u7uy" path="res://assets/Sprites/Player/PlayerIdleLeft.png" id="5_liccc"]
+[ext_resource type="Texture2D" uid="uid://d0ij53b1rgbku" path="res://assets/Sprites/Player/PlayerIdleRight.png" id="6_tmq60"]
+[ext_resource type="Texture2D" uid="uid://ch22slk6qmt7i" path="res://assets/Sprites/Player/PlayerWalkBack.png" id="7_oj1hq"]
+[ext_resource type="Texture2D" uid="uid://cd4pqmkiyb6dk" path="res://assets/Sprites/Player/PlayerWalkFront.png" id="8_t17ll"]
+[ext_resource type="Texture2D" uid="uid://dx2tsktb8a48" path="res://assets/Sprites/Player/PlayerWalkLeft.png" id="9_y0shu"]
+[ext_resource type="Texture2D" uid="uid://f3r7g6u8nol1" path="res://assets/Sprites/Player/PlayerWalkRight.png" id="10_iwkiw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cn6yd"]
 size = Vector2(29, 65)
@@ -372,6 +372,7 @@ animations = [{
 [node name="player" type="CharacterBody2D"]
 process_mode = 3
 z_index = 5
+scale = Vector2(0.5, 0.5)
 collision_mask = 2
 script = ExtResource("2_the84")
 

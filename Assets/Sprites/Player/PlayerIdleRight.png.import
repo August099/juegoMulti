@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d0ij53b1rgbku"
-path="res://.godot/imported/PlayerIdleRight.png-34717911b5f6f955093cb5d2bd08d77c.ctex"
+path="res://.godot/imported/PlayerIdleRight.png-5b3ccb23a4be07bc5b0e925d53ce108b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Player/PlayerIdleRight.png"
-dest_files=["res://.godot/imported/PlayerIdleRight.png-34717911b5f6f955093cb5d2bd08d77c.ctex"]
+source_file="res://assets/Sprites/Player/PlayerIdleRight.png"
+dest_files=["res://.godot/imported/PlayerIdleRight.png-5b3ccb23a4be07bc5b0e925d53ce108b.ctex"]
 
 [params]
 

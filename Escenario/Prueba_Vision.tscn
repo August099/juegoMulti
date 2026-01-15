@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b70j0hpte5t2e"]
 
-[ext_resource type="TileSet" uid="uid://2d03btp2ybwt" path="res://Assets/Terrain/TILESET.tres" id="1_i3foy"]
+[ext_resource type="TileSet" uid="uid://2d03btp2ybwt" path="res://assets/Terrain/TILESET.tres" id="1_i3foy"]
 [ext_resource type="PackedScene" uid="uid://o4svm0t826cc" path="res://Escenario/player.tscn" id="2_7dgku"]
 
 [node name="Prueba_Vision" type="Node2D"]

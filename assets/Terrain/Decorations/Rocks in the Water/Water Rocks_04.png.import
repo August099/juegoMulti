@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c4e4mhd8p760p"
-path="res://.godot/imported/Water Rocks_04.png-63bdbeb0a1ed521474b9f092aec9bab9.ctex"
+path="res://.godot/imported/Water Rocks_04.png-c1adad586c536ff004c1e1c0009567cc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Terrain/Decorations/Rocks in the Water/Water Rocks_04.png"
-dest_files=["res://.godot/imported/Water Rocks_04.png-63bdbeb0a1ed521474b9f092aec9bab9.ctex"]
+source_file="res://assets/Terrain/Decorations/Rocks in the Water/Water Rocks_04.png"
+dest_files=["res://.godot/imported/Water Rocks_04.png-c1adad586c536ff004c1e1c0009567cc.ctex"]
 
 [params]
 

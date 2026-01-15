@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="TreePlacementRule" load_steps=2 format=3 uid="uid://bx2ynfaiqqsnq"]
+
+[ext_resource type="Script" path="res://Scripts/Resources/TreePlacement.gd" id="1_cxm4f"]
+
+[resource]
+script = ExtResource("1_cxm4f")
+chance = 0.06
+spacing = 2
+seed_offset = 10

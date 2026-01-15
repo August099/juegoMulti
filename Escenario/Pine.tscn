@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cneigdfeahre8"]
+
+[ext_resource type="Texture2D" uid="uid://cun0a7v7325mn" path="res://assets/Terrain/Decorations Aug/tree.png" id="1_5253e"]
+
+[node name="Node2D" type="Node2D"]
+z_index = 10
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, -55)
+texture = ExtResource("1_5253e")

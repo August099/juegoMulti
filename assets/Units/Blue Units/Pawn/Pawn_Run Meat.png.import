@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://pjvxkwrxwsk3"
-path="res://.godot/imported/Pawn_Run Meat.png-af48f899d07bc51285f6d3f77a53094b.ctex"
+path="res://.godot/imported/Pawn_Run Meat.png-4865a6ec8214c380b81c89b140d437ac.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Units/Blue Units/Pawn/Pawn_Run Meat.png"
-dest_files=["res://.godot/imported/Pawn_Run Meat.png-af48f899d07bc51285f6d3f77a53094b.ctex"]
+source_file="res://assets/Units/Blue Units/Pawn/Pawn_Run Meat.png"
+dest_files=["res://.godot/imported/Pawn_Run Meat.png-4865a6ec8214c380b81c89b140d437ac.ctex"]
 
 [params]
 

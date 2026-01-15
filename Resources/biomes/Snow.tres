@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Biome" load_steps=2 format=3 uid="uid://ks32o5klpasw"]
+
+[ext_resource type="Script" path="res://Scripts/Resources/Biomes.gd" id="1_lh730"]
+
+[resource]
+script = ExtResource("1_lh730")
+biome_type = 4
+terrain_id = 2
+conditions = Array[Resource("res://Scripts/BiomeConditions.gd")]([])
+rules = Array[Resource("res://Scripts/BiomeRule.gd")]([])

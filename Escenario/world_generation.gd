@@ -21,11 +21,9 @@ var back_side_decoration_layer = 2
 var water_layer = 3
 
 #atlas
-var water_atlas_id = 5
-var water_foam_atlas_id = 6
-var tree_atlas_id = 9
-#terrain
-var source_arr = [0, 1, 2, 3, 4]
+var water_atlas_id = 110
+var water_foam_atlas_id = 111
+var tree_atlas_id = 20
 
 #world size
 var width: float = 500.0
@@ -37,7 +35,47 @@ var center_y = height / 2.0
 var island_size := 0.8
 
 # la dificultad del bioma se aplica segun lo cercano que este a la estructura del boss
-var biomes = {}
+var biomes = {
+	"meadow": {
+		"source": 0,
+		"atlas": [
+			Vector2i(0,0),
+			Vector2i(1,0),
+			Vector2i(2,0),
+			Vector2i(3,0),
+			Vector2i(4,0),
+			Vector2i(5,0),
+			Vector2i(6,0),
+			Vector2i(0,1),
+			Vector2i(1,1),
+			Vector2i(2,1),
+			Vector2i(3,1),
+			Vector2i(0,2),
+			Vector2i(1,2),
+			Vector2i(2,2),
+			Vector2i(3,2)
+		]
+	},
+	"forest": {
+		"source": 1,
+		"atlas": [
+			Vector2i(0,0),
+			Vector2i(1,0),
+			Vector2i(2,0),
+			Vector2i(3,0),
+			Vector2i(4,0),
+			Vector2i(5,0),
+			Vector2i(0,1),
+			Vector2i(1,1),
+			Vector2i(2,1),
+			Vector2i(3,1),
+			Vector2i(0,2),
+			Vector2i(1,2),
+			Vector2i(2,2),
+			Vector2i(3,2)
+		]
+	}
+}
 
 # PARA PROTOTIPAR
 @export var multiplayer_options = false
@@ -63,11 +101,6 @@ func _ready():
 		generate_world()
 
 func generate_world():
-	
-	# Esto hace que los mundos tengan diferentes colores para el server y los clientes
-	if !multiplayer_options:
-		source_arr.shuffle()
-	
 	var grass_tiles = {
 		"color_0": [],
 		"color_1": [],
@@ -86,17 +119,13 @@ func generate_world():
 			var altitude_noise_value = (altitude_noise.get_noise_2d(x, y) + 1.0) * 0.5
 			var island_falloff_value = (island_falloff_noise.get_noise_2d(x, y) + 1.0) * 0.5
 
-#			var nx = (x - center_x) / center_x
-#			var ny = (y - center_y) / center_y
-#			var distance = sqrt(nx * nx + ny * ny)
-
 			var dx = min(x, width - x) / (width * 0.5)
 			var dy = min(y, height - y) / (height * 0.5)
 			var distance = clamp(min(dx, dy), 0.0, 1.0)
 			
 			if pos == Vector2i(0,250):
 				print(pos, " ", distance)
-			
+
 # pow((distance + x) * y + island_falloff_value * z, 3.0)
 # x = mueve la funcion en el eje x (puede hacer que 
 #     la tierra este mas cerca o mas lejos de los bordes)
@@ -113,19 +142,14 @@ func generate_world():
 			if altitude_noise_value > 0.5:
 				if (between(temperature_noise_value, 0, 0.35) && between(moisture_noise_value, 0, 0.55)) || (between(temperature_noise_value, 0.35, 0.6) && between(moisture_noise_value, 0.55, 0.75)):
 					grass_tiles.color_0.append(pos)
-					biomes[pos] = source_arr[0]
 				elif between(temperature_noise_value, 0.35, 0.6) && between(moisture_noise_value, 0, 0.55):
 					grass_tiles.color_1.append(pos)
-					biomes[pos] = source_arr[1]
 				elif between(temperature_noise_value, 0.6, 1) && between(moisture_noise_value, 0, 0.75):
-					grass_tiles.color_2.append(pos)
-					biomes[pos] = source_arr[2]
+					pass
 				elif between(temperature_noise_value, 0, 0.35) && between(moisture_noise_value, 0.55, 1):
-					grass_tiles.color_3.append(pos)
-					biomes[pos] = source_arr[3]
+					pass
 				elif between(temperature_noise_value, 0.35, 1) && between(moisture_noise_value, 0.75, 1):
-					grass_tiles.color_4.append(pos)
-					biomes[pos] = source_arr[4]
+					pass
 			else:
 				tile_map.set_cell(water_layer, pos, water_atlas_id, Vector2i(0, 0))
 			
@@ -138,26 +162,9 @@ func generate_world():
 				#print("Almost crashed", counter)
 				await get_tree().process_frame
 	
+	set_biome(biomes.meadow.source, biomes.meadow.atlas, grass_tiles.color_0)
 	
-	switch_biome_probability(source_arr[0], 1)
-	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_0, 0, 0)
-	switch_biome_probability(source_arr[0], 0)
-	
-	switch_biome_probability(source_arr[1], 1)
-	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_1, 0, 0)
-	switch_biome_probability(source_arr[1], 0)
-	
-	switch_biome_probability(source_arr[2], 1)
-	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_2, 0, 0)
-	switch_biome_probability(source_arr[2], 0)
-	
-	switch_biome_probability(source_arr[3], 1)
-	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_3, 0, 0)
-	switch_biome_probability(source_arr[3], 0)
-	
-	switch_biome_probability(source_arr[4], 1)
-	tile_map.set_cells_terrain_connect(ground_layer, grass_tiles.color_4, 0, 0)
-	switch_biome_probability(source_arr[4], 0)
+	set_biome(biomes.forest.source, biomes.forest.atlas, grass_tiles.color_1)
 	
 	set_decoration_world()
 	
@@ -183,14 +190,24 @@ func between(val, min, max):
 		return true
 	return false
 
-func switch_biome_probability(source_id, probability):
+func set_biome(source_id: int, tiles_biome, cells):
+	switch_tiles_probability(source_id, tiles_biome)
+	tile_map.set_cells_terrain_connect(ground_layer, cells, 0, 0)
+	switch_tiles_probability(source_id, tiles_biome)
+
+func switch_tiles_probability(source_id: int, tiles_position):
 	var source = tile_map.tile_set.get_source(source_id)
-	
-	for x in range(3):
-		for y in range(3):
-			var tile_data = source.get_tile_data(Vector2i(x, y), 0)
-			
-			tile_data.probability = probability
+
+	for pos in tiles_position:
+		var tile_data = source.get_tile_data(pos, 0)
+
+		if tile_data:
+			var tile_probability = tile_data.get_custom_data("probability")
+
+			if tile_data.probability != 0:
+				tile_data.probability = 0
+			else:
+				tile_data.probability = tile_probability
 
 ###############################
 # ESTO EVITA QUE EL MULTIJUGADOR SE CAIGA MIENTRAS CARGA EL MAPA

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dc4x6boaie8ly"
-path="res://.godot/imported/Tilemap_color4.png-6eae49e38f1eec657d5b22329c7ddd71.ctex"
+path="res://.godot/imported/Tilemap_color4.png-d7cbffe1d670b2924700cb94a1c314f3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Terrain/Tileset/Tilemap_color4.png"
-dest_files=["res://.godot/imported/Tilemap_color4.png-6eae49e38f1eec657d5b22329c7ddd71.ctex"]
+source_file="res://assets/Terrain/Tileset/Tilemap_color4.png"
+dest_files=["res://.godot/imported/Tilemap_color4.png-d7cbffe1d670b2924700cb94a1c314f3.ctex"]
 
 [params]
 

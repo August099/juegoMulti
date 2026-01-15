@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Biome" load_steps=6 format=3 uid="uid://gu3w6wf1xu8a"]
+
+[ext_resource type="Script" path="res://Scripts/Resources/TreePlacement.gd" id="1_fbyuj"]
+[ext_resource type="Script" path="res://Scripts/Resources/Biomes.gd" id="1_yqg8x"]
+[ext_resource type="PackedScene" uid="uid://sgvvl30bojg0" path="res://Escenario/Arbol.tscn" id="2_nu4vx"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3xilp"]
+noise_type = 0
+frequency = 0.06
+
+[sub_resource type="Resource" id="Resource_x0g61"]
+script = ExtResource("1_fbyuj")
+tree = ExtResource("2_nu4vx")
+chance = 0.05
+spacing = 3
+seed_offset = 5
+forest_noise = SubResource("FastNoiseLite_3xilp")
+
+[resource]
+script = ExtResource("1_yqg8x")
+biome_type = 3
+conditions = Array[Resource("res://Scripts/BiomeConditions.gd")]([])
+rules = Array[Resource("res://Scripts/BiomeRule.gd")]([SubResource("Resource_x0g61")])

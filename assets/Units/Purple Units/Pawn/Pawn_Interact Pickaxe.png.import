@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://srqnpp81qjki"
-path="res://.godot/imported/Pawn_Interact Pickaxe.png-db9eeb0223d1fb89effb40f946ec8855.ctex"
+path="res://.godot/imported/Pawn_Interact Pickaxe.png-1aa65abfacab8966cbbaf216d12a8ff4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Units/Purple Units/Pawn/Pawn_Interact Pickaxe.png"
-dest_files=["res://.godot/imported/Pawn_Interact Pickaxe.png-db9eeb0223d1fb89effb40f946ec8855.ctex"]
+source_file="res://assets/Units/Purple Units/Pawn/Pawn_Interact Pickaxe.png"
+dest_files=["res://.godot/imported/Pawn_Interact Pickaxe.png-1aa65abfacab8966cbbaf216d12a8ff4.ctex"]
 
 [params]
 
