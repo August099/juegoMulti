@@ -88,6 +88,9 @@ Activa: En da velocidad de moviemiento a todos los personajes aliados en un area
 Activa: Durante x segundos evita que cualquier unidad muera en un area (enemigos y aliados)
 Activa: En un area alrededor del jugador se activa una zona, si golpea a un enemigo, este recibe daño y queda inmobilizado unos segundos, de lo contrario, el jugador queda inmobilizado
 Pasiva: Cada x segundos, el personaje se vuelve invulnerable unos segundos
+Pasiva: Los puños (arcos/hachas/espadas/baculos) tienen stats mejoradas
+Pasiva: Las activas tienen menor enfriamiento
+Pasiva: Las pasivas son un % mas efectivas
 
 
 
@@ -115,3 +118,9 @@ Luz:
 │        └──────┘OBJETO/PERSONAJE   │
 │                                   │
 └───────────────────────────────────┘
+
+
+---------------ARREGLOS---------------
+
+Hacer que las animaciones de golpeo se muevan la distancia maxima dentro de un semicirculo, ya que ahora mismo
+los ataques laterales cubren mas area que los ataques hacia abajo y arriba
