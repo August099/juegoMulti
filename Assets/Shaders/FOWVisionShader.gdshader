@@ -23,6 +23,5 @@ void fragment() {
 	} else if (shirt_light) {
 		COLOR = vec4(light.rgb, tex.a);
 	} else {
-		COLOR = tex;
 	}
 }

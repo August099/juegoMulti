@@ -1,70 +1,82 @@
 extends CharacterBody2D
 
 var moving = false
-var speed = 2000 #2000
-var maxSpeed = 15000 #15000
+var speed = 5000 #2000
+var maxSpeed = 50000 #15000
 var friction = 0.2
 
 @onready var camera = $Camera2D
 
 # Animations
 @onready var AnimatedSprite = $AnimatedSprite2D
+var move_dir: Vector2
 var last_facing_dir: Vector2
+
 var WeaponDefaultPosition: Vector2
 var WeaponDefaultRotation: float
 var attacking = false
+var attacking_dir = Vector2(0,0)
 
-@onready var AnimatedWeapon = $AnimatedWeapon
+# Combat
+@onready var WeaponSprite = $WeaponSprite
+@onready var WeaponAnimation = $WeaponAnimation
 @export var weapon: String = 'Hand'
 
 
 # Get properties from multiplayer node
 @onready var multiplayer_node = get_node("/root/Multiplayer")
 
+# Stats
+@export var stats : Stats
+
+# Set by the authority, synchronized on spawn
+@export var player := 1:
+	set(id): 
+		player = id
+		# Give authority over input to the owning peer
+		%PlayerInput.set_multiplayer_authority(id)
+
 func _ready():
 	# Set the camera as current if we are this player.
 	if player == multiplayer.get_unique_id():
 		$Camera2D.make_current()
-		
-	WeaponDefaultPosition = AnimatedWeapon.position
-	WeaponDefaultRotation = AnimatedWeapon.rotation
-	AnimatedWeapon.play(weapon + "Idle")
-	AnimatedWeapon.animation_finished.connect(_on_animated_weapon_animation_finished)
+	
+	print("STATS: ", stats.health, ' ', stats.damage)
+	
+	WeaponDefaultPosition = WeaponSprite.position
+	WeaponDefaultRotation = WeaponSprite.rotation
+	AnimatedSprite.play("IdleRight")
+	WeaponAnimation.play(weapon + "Idle")
+	WeaponSprite.animation_finished.connect(_on_weapon_animation_animation_finished)
 	
 	
-		
-
-# Set by the authority, synchronized on spawn
-@export var player := 1:
-	set(id):
-		player = id
-		# Give authority over input to the owning peer
-		$PlayerInput.set_multiplayer_authority(id)
-
-@onready var input := $PlayerInput
-
 func _physics_process(delta):
-	#if !is_multiplayer_authority():
-	#	return
-		
+	
 	#if not multiplayer_node.movement_unlocked:
 	#	return
+	
+	if multiplayer.is_server():
+		_apply_movement_from_input(delta)
+		
+	play_animations()
 
-	var dir : Vector2 = input.move_direction
+
+func _apply_movement_from_input(delta):
+	move_dir = %PlayerInput.move_direction
 	var friction_x := true
 	var friction_y := true
 	
-	if dir.x != 0:
+	if move_dir.x != 0:
 		velocity.x = clamp(
-			velocity.x + dir.x * speed * delta,
+			velocity.x + move_dir.x * speed * delta,
 			-maxSpeed * delta,
 			maxSpeed * delta
 		)
 		friction_x = false
 
-	if dir.y != 0:
+	if move_dir.y != 0:
 		velocity.y = clamp(
-			velocity.y + dir.y * speed * delta,
+			velocity.y + move_dir.y * speed * delta,
 			-maxSpeed * delta,
 			maxSpeed * delta
 		)
@@ -77,7 +89,7 @@ func _physics_process(delta):
 	
 	move_and_slide()
 	
-	play_animation(dir)
+	play_animation(move_dir)
 
 func _input(event):
 	if Input.is_action_just_pressed('ZoomIn'):
@@ -93,6 +105,14 @@ func _input(event):
 #################
 # ANIMACIONES
 #################
+
+func play_animations():
+	move_dir = %PlayerInput.move_direction
+	play_animation(move_dir)
+	
+	if attacking:
+		attack_animation(attacking_dir)
+	
 
 func play_animation(dir: Vector2):
 	var anim
@@ -122,57 +142,23 @@ func play_animation(dir: Vector2):
 	if AnimatedSprite.animation != anim:
 		if abs(dir.x) > 0:
 			last_facing_dir = dir
+		
 		AnimatedSprite.play(anim)
 
 ##############################
 # ATAQUES
 ##############################
-func _unhandled_input(event):
-	
-	if multiplayer_node.game_state != multiplayer_node.GameState.IN_GAME:
-		return
-		
 
-	if event.is_action_pressed("Attack"):
-		var mouse_position = get_global_mouse_position()
-		var direction_vector = mouse_position.direction_to(global_position)
-		rpc('attack_animation', multiplayer.get_unique_id(), direction_vector)
-		
-	if event.is_action_released("Attack"):
-		attacking = false
-		
-
-
-
-func _on_animated_weapon_animation_finished():
-	if AnimatedWeapon.animation.contains("Idle"):
-		return
-	
-	if attacking:
-		var mouse_position = get_global_mouse_position()
-		var direction_vector = mouse_position.direction_to(global_position)
-		rpc('attack_animation', multiplayer.get_unique_id(), direction_vector)
-		return
-	
-	rpc('play_idle', multiplayer.get_unique_id())
-
-
-@rpc("any_peer", "call_local", "reliable")
-func attack_animation(player_id, direction_vector):
-	
-	if player != player_id:
-		return
-	
-	attacking = true
+func attack_animation(direction_vector):
 	
 	var normalized_vector = direction_vector.normalized()
 	
 	var rotation_angle = direction_vector.angle()
 	
-	AnimatedWeapon.rotation = WeaponDefaultRotation + 270*PI/180 + rotation_angle
-	AnimatedWeapon.position = WeaponDefaultPosition - normalized_vector*50
+	WeaponSprite.rotation = WeaponDefaultRotation + 270*PI/180 + rotation_angle
+	WeaponSprite.position = WeaponDefaultPosition - normalized_vector*50
 	
-	var degrees = AnimatedWeapon.rotation_degrees
+	var degrees = WeaponSprite.rotation_degrees
 	
 	if degrees > 360:
 		degrees -= 360
@@ -180,18 +166,63 @@ func attack_animation(player_id, direction_vector):
 		degrees +=360
 		
 	if degrees > 180:
-		AnimatedWeapon.flip_h = true
+		WeaponSprite.flip_h = true
 	else:
-		AnimatedWeapon.flip_h = false
+		WeaponSprite.flip_h = false
 	
-	AnimatedWeapon.play(weapon + "Attack")
+	WeaponAnimation.play(weapon + "Attack")
 
-@rpc("any_peer", "call_local", "reliable")
-func play_idle(player_id):
-	if player != player_id:
+
+func _on_weapon_animation_animation_finished(anim_name):
+	if anim_name.contains("Idle"):
 		return
 	
-	AnimatedWeapon.play(weapon + "Idle")
-	AnimatedWeapon.position = WeaponDefaultPosition
-	AnimatedWeapon.rotation = WeaponDefaultRotation
-	AnimatedWeapon.flip_h = false
+	if attacking:
+		return
+	else :
+		play_idle()
+
+func play_idle():
+	WeaponAnimation.play(weapon + "Idle")
+	WeaponSprite.position = WeaponDefaultPosition
+	WeaponSprite.rotation = WeaponDefaultRotation
+	WeaponSprite.flip_h = false
+	
+
+
+###################
+# COMBATE
+###################
+
+func _on_hit_box_area_entered(area):
+	# Es el dueño del nodo?
+	if !is_multiplayer_authority():
+		return
+	
+	# Entonces manda una señal para aplicar el daño
+	rpc("request_damage", area.owner.player, stats.damage)
+	
+
+@rpc("any_peer", "call_local")
+func request_damage(target_player_id, dmg):
+	# Si es el server...
+	if !multiplayer.is_server():
+		return
+	
+	# Agarra el nodo representante del jugador golpeado y le aplica el daño
+	var target = multiplayer_node.get_node('Level/NivelPrueba/Players/'+str(target_player_id))
+	target.apply_damage(dmg)
+	
+func apply_damage(dmg):
+	# Aplica el daño
+	stats.health -= dmg
+	# Y manda una señal a todos los jugadores y a si mismo de actualizar la vida
+	rpc("sync_health", stats.health)
+
+
+@rpc("call_local")
+func sync_health(new_health):
+	
+	# Todos los jugadores actualizan la barra de vida del jugador golpeado
+	stats.stat_changed.emit(stats.stats.HEALTH, new_health)
+	%HealthBar.value = stats.health

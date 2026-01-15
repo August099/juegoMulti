@@ -118,3 +118,9 @@ Luz:
 │        └──────┘OBJETO/PERSONAJE   │
 │                                   │
 └───────────────────────────────────┘
+
+
+---------------ARREGLOS---------------
+
+Hacer que las animaciones de golpeo se muevan la distancia maxima dentro de un semicirculo, ya que ahora mismo
+los ataques laterales cubren mas area que los ataques hacia abajo y arriba

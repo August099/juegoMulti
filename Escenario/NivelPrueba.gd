@@ -12,6 +12,8 @@ var clients_ready_for_game = {}
 
 var first_tab = true
 
+
+var generacion_mundo = false
 func _ready():
 	
 	# Los jugadores que no estuvieron en el lobby no cargan la escena
@@ -44,18 +46,21 @@ func _ready():
 		# Actualizo la pantalla de carga
 		actualizar_carga()
 		
-		await wait_clients()
+		if generacion_mundo:
+			await wait_clients()
 		
 		# Generacion del mundo
 		world_seed = randi()
 		
 		# Envio a los clientes a que generen el mundo y despues empieza el server a generarlo
-		rpc("receive_world_seed", world_seed, multiplayer_node.players)
-		_spawn_world()
+		if generacion_mundo:
+			rpc("receive_world_seed", world_seed, multiplayer_node.players)
+			_spawn_world()
 		
 	else :
 		# El cliente ya esta listo para recibir informacion
-		rpc_id(1, "client_ready_for_game")
+		if generacion_mundo:
+			rpc_id(1, "client_ready_for_game")
 		
 		# Actualizo datos en los clientes
 		multiplayer_node.game_state = GameState.IN_GAME
@@ -64,6 +69,7 @@ func _ready():
 	# Despues de que todos se unieron seteo la niebla de guerra para cada equipo
 	await wait_for_multiple_players()
 	set_fow()
+	
 	# Empiezo a medir el ping
 	if multiplayer.is_server():
 		update_ping_loop()
@@ -145,13 +151,34 @@ func set_fow():
 			player.get_node("Vision").enabled = false
 			
 			# Tambien escondo el nombre y la vida
-			player.get_node("Stats").visible = false
+			#player.get_node("Stats").visible = false
+			player.get_node("%PlayerName").text = players[id]["name"]
 			
-			# Agrego el material al sprite
-			player.get_node("AnimatedWeapon").material = shaderEnemy
+			## Agrego el material al sprite
+			player.material = shaderEnemy
 			player.get_node("AnimatedSprite2D").material = shaderEnemy
+			
+			player.get_node("WeaponSprite").use_parent_material = true
+			player.get_node("AnimatedSprite2D").use_parent_material = true
+			player.get_node("PlayerUI").use_parent_material = true
+			player.get_node("%HealthBar").use_parent_material = true
+			player.get_node("%PlayerName").use_parent_material = true
+			
 			player.get_node("AnimatedSprite2D").material.set_shader_parameter("clothes_color", Color("e43b44"))
-		
+			
+			# Cambio la hitbox a enemigo y hurtbox a jugador
+			# Primero remuevo todos los actuales
+			player.get_node('HurtBox').collision_layer = 0
+			player.get_node('%HitBox').collision_layer = 0
+			player.get_node('HurtBox').collision_mask = 0
+			player.get_node('%HitBox').collision_mask = 0
+			player.get_node('%HitBox').monitoring = false
+			
+			player.get_node('HurtBox').set_collision_layer_value(6, true)
+			player.get_node('%HitBox').set_collision_mask_value(5, true)
+			
+			
+			
 		# Si el jugador si esta en su equipo
 		else:
 			var shaderAlly = ShaderMaterial.new()
@@ -167,8 +194,18 @@ func set_fow():
 				player.get_node("AnimatedSprite2D").material.set_shader_parameter("clothes_color", Color("0099db"))
 			
 			# Agrego su nombre
-			player.get_node("Stats").get_node("PlayerName").text = players[id]["name"]
+			player.get_node("%PlayerName").text = players[id]["name"]
 			
+			# Cambio la hitbox A ENEMIGO y hurtbox a aliado
+			# Primero remuevo todos los actuales
+			player.get_node('HurtBox').collision_layer = 0
+			player.get_node('%HitBox').collision_layer = 0
+			player.get_node('HurtBox').collision_mask = 0
+			player.get_node('%HitBox').collision_mask = 0
+			player.get_node('%HitBox').monitoring = false
+			
+			player.get_node('HurtBox').set_collision_layer_value(5, true)
+			player.get_node('%HitBox').set_collision_mask_value(6, true)
 			
 
 func wait_for_multiple_players() -> void:
@@ -191,9 +228,9 @@ func _spawn_world():
 	
 
 @rpc("any_peer", "reliable")
-func receive_world_seed(seed: int, players: Dictionary):
+func receive_world_seed(seed: int, players_dict: Dictionary):
 	world_seed = seed
-	multiplayer_node.players = players
+	multiplayer_node.players = players_dict
 	
 	_spawn_world()
 
