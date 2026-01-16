@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://b70j0hpte5t2e"]
+[gd_scene load_steps=5 format=3 uid="uid://b70j0hpte5t2e"]
 
 [ext_resource type="TileSet" uid="uid://2d03btp2ybwt" path="res://assets/Terrain/TILESET.tres" id="1_i3foy"]
 [ext_resource type="PackedScene" uid="uid://o4svm0t826cc" path="res://Escenario/player.tscn" id="2_7dgku"]
+[ext_resource type="Shader" path="res://Assets/Shaders/AlliedTeam.gdshader" id="3_kd03a"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i2xxi"]
+shader = ExtResource("3_kd03a")
+shader_parameter/clothes_color = Color(0, 0.56, 1, 1)
+shader_parameter/tolerance = 0.2
 
 [node name="Prueba_Vision" type="Node2D"]
 
@@ -19,6 +25,7 @@ color = Color(0.564706, 0.564706, 0.564706, 1)
 position = Vector2(1132, 590)
 
 [node name="player" parent="Equipo1" instance=ExtResource("2_7dgku")]
-position = Vector2(515, 467)
+material = SubResource("ShaderMaterial_i2xxi")
+position = Vector2(1376, 56)
 
 [editable path="Equipo1/player"]

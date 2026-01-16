@@ -1,10 +1,15 @@
-[gd_scene load_steps=44 format=3 uid="uid://c8kkijph46fur"]
+[gd_scene load_steps=59 format=3 uid="uid://c8kkijph46fur"]
 
+[ext_resource type="Script" path="res://Scripts/WorldGeneration/mainPruebas.gd" id="1_fiagw"]
 [ext_resource type="Texture2D" uid="uid://cb5gfumf8afjt" path="res://assets/Terrain/Tileset/Tilemap_color1.png" id="1_o8roq"]
 [ext_resource type="Texture2D" uid="uid://bfsrg8pw1pn4m" path="res://assets/Terrain/Tileset/Tilemap_color2.png" id="2_a0qb2"]
+[ext_resource type="Script" path="res://Scripts/Resources/Biomes.gd" id="2_aet4j"]
+[ext_resource type="Script" path="res://Scripts/Resources/TreePlacement.gd" id="3_calow"]
 [ext_resource type="Texture2D" uid="uid://c4h1xyfnnrsgu" path="res://assets/Terrain/Tileset/Tilemap_color3.png" id="3_rjxea"]
 [ext_resource type="Texture2D" uid="uid://dc4x6boaie8ly" path="res://assets/Terrain/Tileset/Tilemap_color4.png" id="4_7vteo"]
 [ext_resource type="PackedScene" uid="uid://o4svm0t826cc" path="res://Escenario/player.tscn" id="4_340w1"]
+[ext_resource type="PackedScene" uid="uid://cneigdfeahre8" path="res://Escenario/Pine.tscn" id="4_il8ab"]
+[ext_resource type="PackedScene" uid="uid://sgvvl30bojg0" path="res://Escenario/Arbol.tscn" id="5_cwjba"]
 [ext_resource type="Texture2D" uid="uid://ciqqsab2je0my" path="res://assets/Terrain/Tileset/Tilemap_color5.png" id="5_yvus1"]
 [ext_resource type="Texture2D" uid="uid://xkljf62lus3m" path="res://assets/Terrain/Tileset/Water Background color.png" id="6_ub8bp"]
 [ext_resource type="Texture2D" uid="uid://hkxjxr5rvto4" path="res://assets/Terrain/Tilesets Aug/bosque.png" id="7_hm6k0"]
@@ -21,6 +26,64 @@
 [ext_resource type="Texture2D" uid="uid://dw2pknagm6rv3" path="res://assets/Terrain/Tilesets Aug/pantano.png" id="22_r4773"]
 [ext_resource type="Texture2D" uid="uid://go116u31scqy" path="res://assets/Terrain/Tilesets Aug/water.png" id="23_0dmae"]
 [ext_resource type="Texture2D" uid="uid://t4us3nxtcxp" path="res://assets/Terrain/Tilesets Aug/nieve.png" id="23_skwx4"]
+
+[sub_resource type="Resource" id="Resource_jl1aj"]
+script = ExtResource("2_aet4j")
+biome_type = 0
+conditions = Array[Resource("res://Scripts/Resources/BiomeConditions.gd")]([])
+rules = Array[Resource("res://Scripts/Resources/BiomeRule.gd")]([])
+
+[sub_resource type="Resource" id="Resource_lrgjc"]
+script = ExtResource("2_aet4j")
+biome_type = 1
+conditions = Array[Resource("res://Scripts/Resources/BiomeConditions.gd")]([])
+rules = Array[Resource("res://Scripts/Resources/BiomeRule.gd")]([])
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2a3ig"]
+frequency = 0.02
+
+[sub_resource type="Resource" id="Resource_sy8w5"]
+script = ExtResource("3_calow")
+tree = ExtResource("4_il8ab")
+chance = 0.4
+spacing = 1
+seed_offset = 10
+forest_noise = SubResource("FastNoiseLite_2a3ig")
+
+[sub_resource type="Resource" id="Resource_ad8un"]
+script = ExtResource("2_aet4j")
+biome_type = 2
+conditions = Array[Resource("res://Scripts/Resources/BiomeConditions.gd")]([])
+rules = Array[Resource("res://Scripts/Resources/BiomeRule.gd")]([SubResource("Resource_sy8w5")])
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ijf1u"]
+frequency = 0.05
+
+[sub_resource type="Resource" id="Resource_v1uqe"]
+script = ExtResource("3_calow")
+tree = ExtResource("5_cwjba")
+chance = 0.02
+spacing = 2
+seed_offset = 10
+forest_noise = SubResource("FastNoiseLite_ijf1u")
+
+[sub_resource type="Resource" id="Resource_6iq6h"]
+script = ExtResource("2_aet4j")
+biome_type = 3
+conditions = Array[Resource("res://Scripts/Resources/BiomeConditions.gd")]([])
+rules = Array[Resource("res://Scripts/Resources/BiomeRule.gd")]([SubResource("Resource_v1uqe")])
+
+[sub_resource type="Resource" id="Resource_vvdep"]
+script = ExtResource("2_aet4j")
+biome_type = 4
+conditions = Array[Resource("res://Scripts/Resources/BiomeConditions.gd")]([])
+rules = Array[Resource("res://Scripts/Resources/BiomeRule.gd")]([])
+
+[sub_resource type="Resource" id="Resource_qlh81"]
+script = ExtResource("2_aet4j")
+biome_type = 5
+conditions = Array[Resource("res://Scripts/Resources/BiomeConditions.gd")]([])
+rules = Array[Resource("res://Scripts/Resources/BiomeRule.gd")]([])
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_20loj"]
 tile_data = PackedInt32Array(0, 393218, 3, 65536, 393218, 4)
@@ -1731,6 +1794,10 @@ metadata/_better_terrain = {
 }
 
 [node name="worldGeneration" type="Node2D"]
+script = ExtResource("1_fiagw")
+width = 500
+height = 500
+biomes = Array[ExtResource("2_aet4j")]([SubResource("Resource_jl1aj"), SubResource("Resource_lrgjc"), SubResource("Resource_ad8un"), SubResource("Resource_6iq6h"), SubResource("Resource_vvdep"), SubResource("Resource_qlh81")])
 
 [node name="player" parent="." instance=ExtResource("4_340w1")]
 
