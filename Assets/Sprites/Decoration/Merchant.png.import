@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://qll0got6f2kq"
-path="res://.godot/imported/Merchant.png-3e35d0fcb59844477ea78b63cae47808.ctex"
+path="res://.godot/imported/Merchant.png-7f74e737fe96b225d21097c01cd1dc77.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Decoration/Merchant.png"
-dest_files=["res://.godot/imported/Merchant.png-3e35d0fcb59844477ea78b63cae47808.ctex"]
+source_file="res://assets/Sprites/Decoration/Merchant.png"
+dest_files=["res://.godot/imported/Merchant.png-7f74e737fe96b225d21097c01cd1dc77.ctex"]
 
 [params]
 

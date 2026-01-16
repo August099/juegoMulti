@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b7swf2gy8ht4e"
-path="res://.godot/imported/Merchant_scared.png-50a7805b0e9d6b600eb1772df4ade3f1.ctex"
+path="res://.godot/imported/Merchant_scared.png-0afd75f477dd94f881c5faf55f760fb6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Decoration/Merchant_scared.png"
-dest_files=["res://.godot/imported/Merchant_scared.png-50a7805b0e9d6b600eb1772df4ade3f1.ctex"]
+source_file="res://assets/Sprites/Decoration/Merchant_scared.png"
+dest_files=["res://.godot/imported/Merchant_scared.png-0afd75f477dd94f881c5faf55f760fb6.ctex"]
 
 [params]
 
